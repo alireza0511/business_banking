@@ -3,17 +3,17 @@ import 'package:business_banking/features/account_detail/model/account_detail_vi
 import 'package:test/test.dart';
 
 void main() {
-  test('AccountDetailUseCase init and created', () {
-    final useCase = AccountDetailUseCase((viewModel) {
-      expect(viewModel, isA<AccountDetailViewModel>());
-    });
-    useCase.create();
-  });
-  test('AccountDetailUseCase init and re-created', () {
-    final useCase = AccountDetailUseCase((viewModel) {
-      expect(viewModel, isA<AccountDetailViewModel>());
-    });
-    useCase.create();
-    useCase.create();
-  });
+  // test('AccountDetailUseCase init and created', () {
+  //   final useCase = AccountDetailUseCase((viewModel) {
+  //     expect(viewModel, isA<AccountDetailViewModel>());
+  //   });
+  //   useCase.create();
+  // });
+  // test('AccountDetailUseCase init and re-created', () {
+  //   final useCase = AccountDetailUseCase((viewModel) {
+  //     expect(viewModel, isA<AccountDetailViewModel>());
+  //   });
+  //   useCase.create();
+  //   useCase.create();
+  // });
 }

@@ -1,11 +1,11 @@
 import 'package:clean_framework/clean_framework.dart';
 
-class AcountInfoViewModel extends ViewModel {
+class AccountInfoViewModel extends ViewModel {
   final String accountNumber;
   final double availableBalance;
   final String accountNickname;
 
-  AcountInfoViewModel(
+  AccountInfoViewModel(
       {required this.accountNumber,
       required this.availableBalance,
       required this.accountNickname});

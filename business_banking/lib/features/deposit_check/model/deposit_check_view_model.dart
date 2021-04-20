@@ -1,12 +1,12 @@
 import 'package:clean_framework/clean_framework.dart';
 
-class CheckDepositViewModel extends ViewModel {
+class DepositCheckViewModel extends ViewModel {
   final String accountNumber;
   final double depositAmount;
   final String frontCheckImg;
   final String backCheckImg;
 
-  CheckDepositViewModel(
+  DepositCheckViewModel(
       {required this.accountNumber,
       required this.depositAmount,
       required this.frontCheckImg,

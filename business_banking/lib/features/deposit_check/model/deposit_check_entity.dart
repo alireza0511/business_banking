@@ -1,12 +1,12 @@
 import 'package:clean_framework/clean_framework.dart';
 
-class CheckDepositEntity extends Entity {
+class DepositCheckEntity extends Entity {
   final String accountNumber;
   final double depositAmount;
   final String frontCheckImg;
   final String backCheckImg;
 
-  CheckDepositEntity(
+  DepositCheckEntity(
       {List<EntityFailure> errors = const [],
       this.accountNumber = '',
       this.depositAmount = 0.0,
@@ -18,13 +18,13 @@ class CheckDepositEntity extends Entity {
       [errors, accountNumber, depositAmount, frontCheckImg, backCheckImg];
 
   @override
-  CheckDepositEntity merge(
+  DepositCheckEntity merge(
       {List<EntityFailure>? errors,
       String? accountNumber,
       double? depositAmount,
       String? frontCheckImg,
       String? backCheckImg}) {
-    return CheckDepositEntity(
+    return DepositCheckEntity(
         errors: errors ?? this.errors,
         accountNumber: accountNumber ?? this.accountNumber,
         depositAmount: depositAmount ?? this.depositAmount,

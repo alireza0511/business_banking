@@ -1,4 +1,4 @@
-import 'package:business_banking/features/check_deposit/api/account_info_response_model.dart';
+import 'package:business_banking/features/deposit_check/api/account_info_response_model.dart';
 import 'package:business_banking/locator.dart';
 import 'package:clean_framework/clean_framework.dart';
 import 'package:clean_framework/clean_framework_defaults.dart';
