@@ -11,7 +11,7 @@ void main() {
         toAccount: '5555555555',
         amount: "1",
         date: DateTime.now());
-    final Either<ServiceFailure, TransferFundsResponseModel> eitherResponse = await service.request(requestModel: requestModel);
+    final eitherResponse = await service.request(requestModel: requestModel);
 
     expect(eitherResponse.isRight, isTrue);
     expect(eitherResponse.fold((_) {}, (m) => m),

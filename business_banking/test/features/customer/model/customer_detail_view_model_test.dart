@@ -19,7 +19,8 @@ void main() {
   });
   test('CustomerDetailViewModel initialize with error', () {
     try {
-      CustomerDetailViewModel(customerEntity: null);
+      CustomerEntity a = CustomerEntity();
+      CustomerDetailViewModel(customerEntity: a);
       expect(false, true);
     } catch (error) {
       expect(error != null, true);

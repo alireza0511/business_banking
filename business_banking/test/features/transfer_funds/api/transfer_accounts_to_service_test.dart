@@ -8,7 +8,7 @@ void main() {
     final service = TransferFundsAccountsToService();
     final TransferFundsAccountsToRequestModel model =
         new TransferFundsAccountsToRequestModel(fromAccount: '1111111111');
-    final Either<ServiceFailure, TransferFundsAccountsToResponseModel> eitherResponse = await service.request(requestModel: model);
+    final eitherResponse = await service.request(requestModel: model);
 
     expect(eitherResponse.isRight, isTrue);
     expect(

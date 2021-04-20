@@ -5,12 +5,15 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   test('QuickPayService success', () async {
     final service = QuickPayService();
-    final Either<ServiceFailure, QuickPayServiceResponseModel> eitherResponse = await service.request();
+    final eitherResponse = await service.request();
 
     expect(eitherResponse.isRight, isTrue);
     expect(
         eitherResponse.fold((_) {}, (m) => m),
-        QuickPayServiceResponseModel.fromJson(
-            {'name': 'user name', 'email': 'username@gmail.com', 'imageUrl': ''}));
+        QuickPayServiceResponseModel.fromJson({
+          'name': 'user name',
+          'email': 'username@gmail.com',
+          'imageUrl': ''
+        }));
   });
 }

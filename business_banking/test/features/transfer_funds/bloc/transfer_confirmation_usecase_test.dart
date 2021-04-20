@@ -17,7 +17,8 @@ void main() {
         toAccounts: ['4444444444', '5555555555', '6666666666'],
         id: '123456789');
 
-    ExampleLocator().repository.create<TransferFundsEntity>(entity, null);
+    dynamic a;
+    ExampleLocator().repository.create<TransferFundsEntity>(entity, a);
 
     TransferConfirmationUseCase useCase =
         TransferConfirmationUseCase((viewModel) {

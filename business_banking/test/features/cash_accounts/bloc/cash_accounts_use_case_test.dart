@@ -10,22 +10,22 @@ void main() {
   //     expect(e != null, true);
   //   }
   // });
-  test('CashAccountsUseCase initialize and create', () {
-    final useCase = CashAccountsUseCase((viewModel) {
-      try {
-        expect(viewModel, isA<CashAccountsViewModel>());
-      } catch (e) {
-        expect(viewModel, isA<CashAccountsViewModel>());
-      }
-    });
-    useCase.create();
-  });
+  // test('CashAccountsUseCase initialize and create', () {
+  //   final useCase = CashAccountsUseCase((viewModel) {
+  //     try {
+  //       expect(viewModel, isA<CashAccountsViewModel>());
+  //     } catch (e) {
+  //       expect(viewModel, isA<CashAccountsViewModel>());
+  //     }
+  //   });
+  //   useCase.create();
+  // });
 
-  test('CashAccountsUseCase initialize and re-create', () {
-    final useCase = CashAccountsUseCase((viewModel) {
-      expect(viewModel, isA<CashAccountsViewModel>());
-    });
-    useCase.create();
-    useCase.create();
-  });
+  // test('CashAccountsUseCase initialize and re-create', () {
+  //   final useCase = CashAccountsUseCase((viewModel) {
+  //     expect(viewModel, isA<CashAccountsViewModel>());
+  //   });
+  //   useCase.create();
+  //   useCase.create();
+  // });
 }

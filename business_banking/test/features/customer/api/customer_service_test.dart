@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   test('CustomerService success', () async {
     final service = CustomerService();
-    final Either<ServiceFailure, CustomerServiceResponseModel> eitherResponse = await service.request();
+    final eitherResponse = await service.request();
 
     expect(eitherResponse.isRight, isTrue);
     expect(

@@ -25,8 +25,7 @@ void main() {
     () async {
       final requestModel = PromosServiceRequestModel(customerId: "143");
       final service = PromosService();
-      final Either<ServiceFailure, PromosServiceResponseModel> eitherResponse =
-          await service.request(requestModel: requestModel);
+      final eitherResponse = await service.request(requestModel: requestModel);
 
       expect(eitherResponse.isLeft, isTrue);
       expect(

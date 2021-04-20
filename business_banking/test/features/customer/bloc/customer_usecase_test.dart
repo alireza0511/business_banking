@@ -5,7 +5,8 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   test('CustomerUseCase initialize with error', () {
     try {
-      CustomerUseCase(null);
+      dynamic a;
+      CustomerUseCase(a);
       expect(false, true);
     } catch (error) {
       expect(error != null, true);
