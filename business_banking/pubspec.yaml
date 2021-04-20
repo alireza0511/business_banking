@@ -13,7 +13,7 @@ dependencies:
   url_launcher: ^6.0.3
   intl: ^0.17.0
   integration_test: ^1.0.2+2
-  #charts_flutter: ^0.10.0
+  charts_flutter: ^0.10.0
 
 dev_dependencies:
   test: 

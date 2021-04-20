@@ -23,3 +23,7 @@ class DepositCheckPresenter extends Presenter<AccountInfoBloc,
     );
   }
 }
+
+class PressenterAction {
+  popNavigationListener() {}
+}

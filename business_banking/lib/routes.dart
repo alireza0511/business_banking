@@ -41,8 +41,8 @@ abstract class BusinessBankingRouter {
       case customerDetailRoute:
         return CustomerDetailWidget();
 
-      // case viewBudgetChartRoute:
-      //   return ViewChartWidget();
+      case viewBudgetChartRoute:
+        return ViewChartWidget();
 
       case investmentDetailRoute:
         return InvestmentDetailWidget();
