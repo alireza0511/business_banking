@@ -4,12 +4,12 @@ import 'package:business_banking/features/deposit_check/model/account_info_view_
 import 'package:clean_framework/clean_framework.dart';
 import 'package:flutter/material.dart';
 
-class DepositCheckCardScreen extends Screen {
+class DepositCheckScreen extends Screen {
   final AccountInfoViewModel viewModel;
-  final VoidCallback navigateToDepositCheck;
+  final VoidCallback navigateToDepositCheckDetail;
 
-  DepositCheckCardScreen(
-      {required this.viewModel, required this.navigateToDepositCheck});
+  DepositCheckScreen(
+      {required this.viewModel, required this.navigateToDepositCheckDetail});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class DepositCheckCardScreen extends Screen {
         key: Key('depositCheckCard'),
       ),
       onTap: () {
-        navigateToDepositCheck();
+        navigateToDepositCheckDetail();
       },
     );
   }

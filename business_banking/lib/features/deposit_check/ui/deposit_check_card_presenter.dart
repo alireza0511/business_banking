@@ -4,6 +4,7 @@ import 'package:business_banking/features/deposit_check/model/account_info_view_
 import 'package:clean_framework/clean_framework.dart';
 import 'package:flutter/material.dart';
 
+import '../../../routes.dart';
 import 'deposit_check_card_screen.dart';
 
 class DepositCheckCardPresenter extends Presenter<AccountInfoBloc,
@@ -18,9 +19,13 @@ class DepositCheckCardPresenter extends Presenter<AccountInfoBloc,
       AccountInfoViewModel viewModel) {
     return DepositCheckCardScreen(
       viewModel: viewModel,
-      navigateToDepositCheckDetail: () {
-        //context.router.push(Routes.payment);
+      navigateToDepositCheck: () {
+        _navigateToFeature(context);
       },
     );
+  }
+
+  void _navigateToFeature(BuildContext context) {
+    CFRouterScope.of(context).push(BusinessBankingRouter.depositCheckRoute);
   }
 }

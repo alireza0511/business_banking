@@ -3,14 +3,14 @@ import 'package:business_banking/features/deposit_check/bloc/deposit_check_bloc.
 import 'package:flutter/material.dart';
 import 'package:clean_framework/clean_framework.dart';
 
-import 'deposit_check_card_presenter.dart';
+import 'deposit_check_presenter.dart';
 
-class DepositCheckCardFeatureWidget extends StatelessWidget {
+class DepositCheckWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AccountInfoBloc>(
       create: (_) => AccountInfoBloc(),
-      child: DepositCheckCardPresenter(),
+      child: DepositCheckPresenter(),
     );
   }
 }
