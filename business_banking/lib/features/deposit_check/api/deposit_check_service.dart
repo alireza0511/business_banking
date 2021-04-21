@@ -10,7 +10,7 @@ class CheckDepositService extends EitherService<CheckDepositServiceRequestModel,
       : super(
             method: RestMethod.post,
             restApi: ExampleLocator().api,
-            path: 'check-deposit');
+            path: 'deposit-check');
 
   @override
   CheckDepositServiceResponseModel parseResponse(

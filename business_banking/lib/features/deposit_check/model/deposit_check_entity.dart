@@ -1,15 +1,17 @@
+import 'dart:typed_data';
+
 import 'package:clean_framework/clean_framework.dart';
 
 class DepositCheckEntity extends Entity {
   final String accountNumber;
-  final double depositAmount;
+  final String depositAmount;
   final String frontCheckImg;
   final String backCheckImg;
 
   DepositCheckEntity(
       {List<EntityFailure> errors = const [],
       this.accountNumber = '',
-      this.depositAmount = 0.0,
+      this.depositAmount = '0.0',
       this.frontCheckImg = '',
       this.backCheckImg = ''});
 
@@ -21,7 +23,7 @@ class DepositCheckEntity extends Entity {
   DepositCheckEntity merge(
       {List<EntityFailure>? errors,
       String? accountNumber,
-      double? depositAmount,
+      String? depositAmount,
       String? frontCheckImg,
       String? backCheckImg}) {
     return DepositCheckEntity(

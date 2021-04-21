@@ -1,16 +1,20 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:business_banking/features/deposit_check/model/account_info_view_model.dart';
+import 'package:business_banking/features/deposit_check/model/deposit_check_view_model.dart';
 import 'package:clean_framework/clean_framework.dart';
 import 'package:flutter/material.dart';
 
-class DepositCheckScreen extends Screen {
-  final AccountInfoViewModel viewModel;
-  final VoidCallback navigateToDepositCheckDetail;
+import 'deposit_check_presenter.dart';
 
-  DepositCheckScreen(
-      {required this.viewModel, required this.navigateToDepositCheckDetail});
+class DepositCheckScreen extends Screen {
+  //final AccountInfoViewModel viewModel;
+  final DepositCheckViewModel viewModel;
+  final DepositCheckPressenterActions pressenterAction;
+
+  DepositCheckScreen({required this.viewModel, required this.pressenterAction});
   final _form = GlobalKey<FormState>();
   final _emailFNode = FocusNode();
 
@@ -26,6 +30,7 @@ class DepositCheckScreen extends Screen {
               size: 40.0,
             ),
             onTap: () {
+              pressenterAction.popNavigationListener(context);
               //navigateToAccountDetail();
             },
             key: Key('investment-detail-backButton'),
@@ -46,7 +51,8 @@ class DepositCheckScreen extends Screen {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "Deposit to \n${viewModel.accountNickname} \n\$${viewModel.availableBalance}",
+                  "Deposit to CHECKING ACCOUNT",
+                  //"Deposit to \n${viewModel.accountNickname} \n\$${viewModel.availableBalance}",
                   style: TextStyle(color: Colors.black54, fontSize: 15),
                   textAlign: TextAlign.left,
                 ),
@@ -63,30 +69,60 @@ class DepositCheckScreen extends Screen {
                           height: 150,
                           width: 160,
                           color: Colors.grey[300],
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('Front of Check'),
-                              Icon(Icons.camera_alt)
-                            ],
-                          ),
+                          child: viewModel.frontCheckImg.isNotEmpty
+                              ? Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Image.memory(
+                                        base64.decode(viewModel.frontCheckImg)),
+                                    Icon(
+                                      Icons.check,
+                                      color: Colors.green,
+                                      size: 50,
+                                    )
+                                  ],
+                                )
+                              : Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text('Front of Check'),
+                                    Icon(Icons.camera_alt)
+                                  ],
+                                ),
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          pressenterAction.onPickFrontImg();
+                        },
                       ),
                       GestureDetector(
                         child: Container(
                           height: 150,
                           width: 160,
                           color: Colors.grey[300],
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('Back of Check'),
-                              Icon(Icons.camera_alt)
-                            ],
-                          ),
+                          child: viewModel.backCheckImg.isNotEmpty
+                              ? Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Image.memory(
+                                        base64.decode(viewModel.backCheckImg)),
+                                    Icon(
+                                      Icons.check,
+                                      color: Colors.green,
+                                      size: 50,
+                                    )
+                                  ],
+                                )
+                              : Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text('Back of Check'),
+                                    Icon(Icons.camera_alt)
+                                  ],
+                                ),
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          pressenterAction.onPickBackImg();
+                        },
                       ),
                     ],
                   ),
@@ -116,6 +152,9 @@ class DepositCheckScreen extends Screen {
                               return 'Please provide a value.';
                             }
                           },
+                          onSaved: (val) => pressenterAction
+                              .onDepositCheckAmountSavedListener(val ?? ''),
+                          // .onFormSavedListener({'amount': val ?? ''}),
                         ),
                       ),
                       Padding(
@@ -133,8 +172,13 @@ class DepositCheckScreen extends Screen {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please provide a value.';
+                            } else {
+                              return pressenterAction.onRegExValidation(value);
                             }
+                            //return null;
                           },
+                          onSaved: (val) =>
+                              pressenterAction.onFormSavedListener(val ?? ''),
                         ),
                       )
                     ],
@@ -156,7 +200,16 @@ class DepositCheckScreen extends Screen {
                   height: 50,
                   child: OutlinedButton(
                     child: Text('Confirm'),
-                    onPressed: () {},
+                    onPressed: () {
+                      //! it should be here or move to presenter
+                      if (_form.currentState != null) {
+                        final isValid = _form.currentState!.validate();
+                        if (isValid == false) return;
+                        _form.currentState!.save();
+
+                        pressenterAction.onTapConfirm(context, viewModel);
+                      }
+                    },
                   ),
                 ),
               )

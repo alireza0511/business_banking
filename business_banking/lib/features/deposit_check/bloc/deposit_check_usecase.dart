@@ -1,7 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:business_banking/features/deposit_check/bloc/deposit_check_service_adapter.dart';
 import 'package:business_banking/features/deposit_check/model/deposit_check_entity.dart';
 import 'package:business_banking/features/deposit_check/model/deposit_check_view_model.dart';
 import 'package:clean_framework/clean_framework.dart';
+import 'package:clean_framework/clean_framework_defaults.dart';
 
 import '../../../locator.dart';
 
@@ -16,18 +19,24 @@ import '../../../locator.dart';
 class DepositCheckUseCase extends UseCase {
   late final ViewModelCallback<DepositCheckViewModel> _viewModelCallBack;
 
+  RepositoryScope? _scope;
   DepositCheckUseCase(
       ViewModelCallback<DepositCheckViewModel> viewModelCallBack)
       : _viewModelCallBack = viewModelCallBack;
 
   void execute() async {
-    final scope = ExampleLocator()
-        .repository
-        .create<DepositCheckEntity>(DepositCheckEntity(), _notifySubscribers);
+    _scope = ExampleLocator().repository.containsScope<DepositCheckEntity>();
+    if (_scope == null) {
+      _scope = ExampleLocator()
+          .repository
+          .create<DepositCheckEntity>(DepositCheckEntity(), _notifySubscribers);
+    } else {
+      _scope!.subscription = _notifySubscribers;
+    }
 
     await ExampleLocator()
         .repository
-        .runServiceAdapter(scope, DepositCheckServiceAdapter());
+        .runServiceAdapter(_scope!, DepositCheckServiceAdapter());
   }
 
   void _notifySubscribers(entity) {
@@ -40,5 +49,40 @@ class DepositCheckUseCase extends UseCase {
         frontCheckImg: entity.frontCheckImg,
         backCheckImg: entity.backCheckImg,
         depositAmount: entity.depositAmount);
+  }
+
+  void updateAmount(String amount) {
+    print('step#2: ' + amount);
+    final entity = ExampleLocator().repository.get<DepositCheckEntity>(_scope!);
+    final updatedEntity = entity.merge(depositAmount: amount);
+    ExampleLocator()
+        .repository
+        .update<DepositCheckEntity>(_scope!, updatedEntity);
+    _viewModelCallBack(buildViewModelU(updatedEntity));
+  }
+
+  void updateImgs(String img, {String type = 'front'}) {
+    final entity = ExampleLocator().repository.get<DepositCheckEntity>(_scope!);
+    final updatedEntity = type == 'front'
+        ? entity.merge(frontCheckImg: img)
+        : entity.merge(backCheckImg: img);
+    ExampleLocator()
+        .repository
+        .update<DepositCheckEntity>(_scope!, updatedEntity);
+    _viewModelCallBack(buildViewModelU(updatedEntity));
+  }
+
+  DepositCheckViewModel buildViewModelU(DepositCheckEntity entity) {
+    return DepositCheckViewModel(
+        accountNumber: entity.accountNumber,
+        frontCheckImg: entity.frontCheckImg,
+        backCheckImg: entity.backCheckImg,
+        depositAmount: entity.depositAmount);
+  }
+
+  Future<void> confirmDepositCheck() async {
+    await ExampleLocator()
+        .repository
+        .runServiceAdapter(_scope!, DepositCheckServiceAdapter());
   }
 }

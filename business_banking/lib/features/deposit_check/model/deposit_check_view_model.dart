@@ -1,8 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:clean_framework/clean_framework.dart';
 
 class DepositCheckViewModel extends ViewModel {
   final String accountNumber;
-  final double depositAmount;
+  final String depositAmount;
   final String frontCheckImg;
   final String backCheckImg;
 

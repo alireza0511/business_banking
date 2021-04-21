@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 class CheckDepositServiceRequestModel extends Equatable
     implements JsonRequestModel {
   final String accountNumber;
-  final double depositAmount;
+  final String depositAmount;
   final String frontCheckImg;
   final String backCheckImg;
 
