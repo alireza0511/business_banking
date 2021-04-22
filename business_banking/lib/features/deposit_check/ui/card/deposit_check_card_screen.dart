@@ -4,12 +4,14 @@ import 'package:business_banking/features/deposit_check/model/account_info_view_
 import 'package:clean_framework/clean_framework.dart';
 import 'package:flutter/material.dart';
 
+import 'deposit_check_card_presenter.dart';
+
 class DepositCheckCardScreen extends Screen {
   final AccountInfoViewModel viewModel;
-  final VoidCallback navigateToDepositCheck;
+  final DepositCheckCardPressenterActions pressenterActions;
 
   DepositCheckCardScreen(
-      {required this.viewModel, required this.navigateToDepositCheck});
+      {required this.viewModel, required this.pressenterActions});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class DepositCheckCardScreen extends Screen {
         key: Key('depositCheckCard'),
       ),
       onTap: () {
-        navigateToDepositCheck();
+        pressenterActions.navigateToDepositCheck(context);
       },
     );
   }
@@ -69,8 +71,8 @@ class ItemCard extends StatelessWidget {
               const Divider(
                 thickness: 2,
               ),
-              const Text(
-                "Your current mobile deposit limit is \$15,000.00",
+              Text(
+                "Your current mobile deposit limit is \$${viewModel.depositLimit}",
                 style: TextStyle(color: Colors.black54, fontSize: 15),
               ),
               Text(

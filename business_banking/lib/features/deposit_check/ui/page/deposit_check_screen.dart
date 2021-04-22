@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'deposit_check_presenter.dart';
 
 class DepositCheckScreen extends Screen {
-  //final AccountInfoViewModel viewModel;
   final DepositCheckViewModel viewModel;
   final DepositCheckPressenterActions pressenterAction;
 
@@ -31,9 +30,8 @@ class DepositCheckScreen extends Screen {
             ),
             onTap: () {
               pressenterAction.popNavigationListener(context);
-              //navigateToAccountDetail();
             },
-            key: Key('investment-detail-backButton'),
+            key: Key('deposit-check-backButton'),
           ),
           title: AutoSizeText(
             'DEPOSIT CHECKS',
@@ -52,7 +50,6 @@ class DepositCheckScreen extends Screen {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   "Deposit to CHECKING ACCOUNT",
-                  //"Deposit to \n${viewModel.accountNickname} \n\$${viewModel.availableBalance}",
                   style: TextStyle(color: Colors.black54, fontSize: 15),
                   textAlign: TextAlign.left,
                 ),
@@ -154,13 +151,13 @@ class DepositCheckScreen extends Screen {
                           },
                           onSaved: (val) => pressenterAction
                               .onDepositCheckAmountSavedListener(val ?? ''),
-                          // .onFormSavedListener({'amount': val ?? ''}),
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           initialValue: '',
+                          focusNode: _emailFNode,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               prefixIcon: Icon(Icons.email_outlined),

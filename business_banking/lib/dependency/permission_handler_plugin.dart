@@ -1,11 +1,7 @@
+import 'package:clean_framework/clean_framework.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-abstract class PermissionHandlerPlugin {
-  Future<bool> isGrantedAccessCamera();
-}
-
-class PermissionHandlerPluginImpl implements PermissionHandlerPlugin {
-  @override
+class PermissionHandlerPlugin extends ExternalDependency {
   Future<bool> isGrantedAccessCamera() async {
     var status = await Permission.camera.status;
     if (status.isGranted) {

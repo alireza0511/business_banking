@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 
+import 'package:business_banking/dependency/Image_picker_plugin.dart';
+import 'package:business_banking/dependency/permission_handler_plugin.dart';
 import 'package:business_banking/features/deposit_check/bloc/deposit_check_service_adapter.dart';
 import 'package:business_banking/features/deposit_check/model/deposit_check_entity.dart';
 import 'package:business_banking/features/deposit_check/model/deposit_check_view_model.dart';
@@ -61,9 +63,30 @@ class DepositCheckUseCase extends UseCase {
     _viewModelCallBack(buildViewModelU(updatedEntity));
   }
 
-  void updateImgs(String img, {String type = 'front'}) {
+  void updateImgs0(String img, {String type = 'front'}) {
     final entity = ExampleLocator().repository.get<DepositCheckEntity>(_scope!);
     final updatedEntity = type == 'front'
+        ? entity.merge(frontCheckImg: img)
+        : entity.merge(backCheckImg: img);
+    ExampleLocator()
+        .repository
+        .update<DepositCheckEntity>(_scope!, updatedEntity);
+    _viewModelCallBack(buildViewModelU(updatedEntity));
+  }
+
+  late final PermissionHandlerPlugin _permissionHandlerPluginImpl =
+      PermissionHandlerPlugin();
+  late final ImagePickerPlugin _imagePickerPluginImpl = ImagePickerPlugin();
+
+  void updateImgs(String imgType) async {
+    String img = '';
+    var isGranted = await _permissionHandlerPluginImpl.isGrantedAccessCamera();
+    if (isGranted == true) {
+      img = await _imagePickerPluginImpl.cameraImgBase64();
+    }
+
+    final entity = ExampleLocator().repository.get<DepositCheckEntity>(_scope!);
+    final updatedEntity = imgType == 'front'
         ? entity.merge(frontCheckImg: img)
         : entity.merge(backCheckImg: img);
     ExampleLocator()

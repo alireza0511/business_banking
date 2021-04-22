@@ -38,6 +38,7 @@ class AccountInfoUseCase extends UseCase {
     return AccountInfoViewModel(
         accountNumber: entity.accountNumber,
         accountNickname: entity.accountNickname,
+        depositLimit: entity.depositLimit,
         availableBalance: entity.availableBalance);
   }
 }

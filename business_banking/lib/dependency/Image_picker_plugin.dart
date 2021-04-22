@@ -1,14 +1,10 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:clean_framework/clean_framework.dart';
 import 'package:image_picker/image_picker.dart';
 
-abstract class ImagePickerPlugin {
-  Future<PickedFile?> cameraImgFile();
-  Future<String> cameraImgBase64();
-}
-
-class ImagePickerPluginImpl implements ImagePickerPlugin {
+class ImagePickerPlugin extends ExternalDependency {
   final ImagePicker _picker = ImagePicker();
 
   @override
@@ -22,14 +18,17 @@ class ImagePickerPluginImpl implements ImagePickerPlugin {
     }
   }
 
-  @override
   Future<String> cameraImgBase64() async {
     try {
       var imgFile = await _onImageActionListener();
-      Uint8List byteFile = await imgFile!.readAsBytes();
-      return base64.encode(byteFile);
+      if (imgFile != null) {
+        Uint8List byteFile = await imgFile.readAsBytes();
+        return base64.encode(byteFile);
+      } else {
+        return '';
+      }
     } catch (e) {
-      return e.toString();
+      return '';
     }
   }
 

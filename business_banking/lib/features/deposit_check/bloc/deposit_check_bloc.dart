@@ -58,11 +58,11 @@ class DepositCheckBloc extends Bloc {
     _depositCheckUseCase.updateAmount(amount);
   }
 
-  void frontImgPipeHandler(String img) {
-    _depositCheckUseCase.updateImgs(img);
+  void frontImgPipeHandler(String imgType) {
+    _depositCheckUseCase.updateImgs(imgType);
   }
 
-  void backImgPipeHandler(String img) {
-    _depositCheckUseCase.updateImgs(img, type: 'back');
+  void backImgPipeHandler(String imgType) {
+    _depositCheckUseCase.updateImgs(imgType);
   }
 }

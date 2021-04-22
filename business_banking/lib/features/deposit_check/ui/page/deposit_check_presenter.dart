@@ -1,6 +1,5 @@
-import 'package:business_banking/core/plugin/Image_picker_plugin.dart';
-import 'package:business_banking/core/plugin/permission_handler_plugin.dart';
-import 'package:business_banking/features/deposit_check/bloc/account_info_bloc.dart';
+import 'package:business_banking/dependency/Image_picker_plugin.dart';
+import 'package:business_banking/dependency/permission_handler_plugin.dart';
 import 'package:business_banking/features/deposit_check/bloc/deposit_check_bloc.dart';
 import 'package:business_banking/features/deposit_check/model/account_info_view_model.dart';
 import 'package:business_banking/features/deposit_check/model/deposit_check_view_model.dart';
@@ -32,15 +31,15 @@ class DepositCheckPresenter extends Presenter<DepositCheckBloc,
     return DepositCheckScreen(
       viewModel: viewModel,
       pressenterAction: DepositCheckPressenterActions(
-          bloc, PermissionHandlerPluginImpl(), ImagePickerPluginImpl()),
+          bloc, PermissionHandlerPlugin(), ImagePickerPlugin()),
     );
   }
 }
 
 class DepositCheckPressenterActions {
   DepositCheckBloc bloc;
-  final PermissionHandlerPluginImpl _permissionHandlerPluginImpl;
-  final ImagePickerPluginImpl _imagePickerPluginImpl;
+  final PermissionHandlerPlugin _permissionHandlerPluginImpl;
+  final ImagePickerPlugin _imagePickerPluginImpl;
 
   DepositCheckPressenterActions(this.bloc, this._permissionHandlerPluginImpl,
       this._imagePickerPluginImpl);
@@ -81,23 +80,12 @@ class DepositCheckPressenterActions {
     _showDialog(context, msg: 'Successful! your reference number is ');
   }
 
-//? Logic for picking img can be in presenter action?
   void onPickFrontImg() async {
-    var isGranted = await _permissionHandlerPluginImpl.isGrantedAccessCamera();
-    if (isGranted == true) {
-      var imgBase64 = await _imagePickerPluginImpl.cameraImgBase64();
-      bloc.frontImgPipe.send(imgBase64);
-    }
+    bloc.frontImgPipe.send('front');
   }
 
   void onPickBackImg() async {
-    var isGranted = await _permissionHandlerPluginImpl.isGrantedAccessCamera();
-    if (isGranted == true) {
-      var imgBase64 = await _imagePickerPluginImpl.cameraImgBase64();
-      bloc.backImgPipe.send(imgBase64);
-    } else {
-      // ToDo Show dialog and ask user for permission
-    }
+    bloc.backImgPipe.send('back');
   }
 
   void _showDialog(BuildContext context,
