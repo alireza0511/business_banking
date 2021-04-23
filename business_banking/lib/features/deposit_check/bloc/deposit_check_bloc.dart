@@ -1,7 +1,4 @@
-import 'dart:typed_data';
-
 import 'package:business_banking/features/deposit_check/bloc/account_info_usecase.dart';
-import 'package:business_banking/features/deposit_check/model/account_info_view_model.dart';
 import 'package:business_banking/features/deposit_check/model/deposit_check_view_model.dart';
 import 'package:clean_framework/clean_framework.dart';
 
@@ -12,7 +9,7 @@ class DepositCheckBloc extends Bloc {
   final depositCheckViewModelPipe = Pipe<DepositCheckViewModel>();
 
   late final AccountInfoUseCase _accountInfoUseCase;
-  final accountInfoViewModelPipe = Pipe<AccountInfoViewModel>();
+  final accountInfoViewModelPipe = Pipe<DepositCheckViewModel>();
 
   final amountPipe = Pipe<String>();
   final emailPipe = Pipe<String>();

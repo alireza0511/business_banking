@@ -10,14 +10,6 @@ import 'package:clean_framework/clean_framework_defaults.dart';
 
 import '../../../locator.dart';
 
-/// UseCase is a declarative chain of pure functions (instruction or command).
-/// Commands are async functions that return an Either or Maybe.
-/// The commands will receive the state and create new states.
-///   a) Developers cannot change state when it is not allowed.
-///   b) History of changes.
-/// Bloc events will launch UseCases, while listening to publications from the UseCase that
-///   returns a ViewModel, which is pushed down to the Presenter.
-
 class DepositCheckUseCase extends UseCase {
   late final ViewModelCallback<DepositCheckViewModel> _viewModelCallBack;
   late final PermissionHandlerPlugin _permissionHandlerPluginImpl =
@@ -50,10 +42,11 @@ class DepositCheckUseCase extends UseCase {
 
   DepositCheckViewModel buildViewModel(DepositCheckEntity entity) {
     return DepositCheckViewModel(
-        accountNumber: entity.accountNumber,
+        accountInfo: entity.accountInfo,
         frontCheckImg: entity.frontCheckImg,
         backCheckImg: entity.backCheckImg,
-        depositAmount: entity.depositAmount);
+        depositAmount: entity.depositAmount,
+        referenceNumber: entity.referenceNumber!);
   }
 
   void updateAmount(String amount) {
@@ -62,7 +55,7 @@ class DepositCheckUseCase extends UseCase {
     ExampleLocator()
         .repository
         .update<DepositCheckEntity>(_scope!, updatedEntity);
-    _viewModelCallBack(buildViewModelU(updatedEntity));
+    _viewModelCallBack(buildViewModel(updatedEntity));
   }
 
   void updateImgs(String imgType) async {
@@ -80,14 +73,6 @@ class DepositCheckUseCase extends UseCase {
         .repository
         .update<DepositCheckEntity>(_scope!, updatedEntity);
     _viewModelCallBack(buildViewModel(updatedEntity));
-  }
-
-  DepositCheckViewModel buildViewModelU(DepositCheckEntity entity) {
-    return DepositCheckViewModel(
-        accountNumber: entity.accountNumber,
-        frontCheckImg: entity.frontCheckImg,
-        backCheckImg: entity.backCheckImg,
-        depositAmount: entity.depositAmount);
   }
 
   Future<void> confirmDepositCheck() async {

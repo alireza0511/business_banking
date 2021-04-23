@@ -13,13 +13,15 @@ class DepositCheckServiceAdapter extends ServiceAdapter<
 
   @override
   createEntity(initialEntity, responseModel) {
-    return initialEntity.merge(errors: <EntityFailure>[]);
+    return initialEntity.merge(
+        errors: <EntityFailure>[],
+        referenceNumber: responseModel.referenceNumber);
   }
 
   @override
   CheckDepositServiceRequestModel createRequest(DepositCheckEntity entity) {
     return CheckDepositServiceRequestModel(
-        accountNumber: entity.accountNumber,
+        accountNumber: entity.accountInfo!.accountNumber,
         depositAmount: entity.depositAmount,
         backCheckImg: entity.backCheckImg,
         frontCheckImg: entity.frontCheckImg);

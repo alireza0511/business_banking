@@ -1,5 +1,6 @@
 // @dart = 2.9
-import 'package:business_banking/features/deposit_check/model/account_info_view_model.dart';
+import 'package:business_banking/features/deposit_check/model/account_info_struct.dart';
+import 'package:business_banking/features/deposit_check/model/deposit_check_view_model.dart';
 import 'package:business_banking/features/deposit_check/ui/deposit_check_card_presenter.dart';
 import 'package:business_banking/features/deposit_check/ui/deposit_check_card_screen.dart';
 import 'package:flutter/material.dart';
@@ -11,27 +12,31 @@ class MockPressenterAction extends Mock
 
 void main() {
   MaterialApp testWidget;
-  AccountInfoViewModel accountInfoViewModel;
+  DepositCheckViewModel depositCheckViewModel;
   MockPressenterAction mockPressenterAction;
 
   setUp(() {
-    accountInfoViewModel = AccountInfoViewModel(
-        accountNumber: '1234567890126917',
-        availableBalance: 481.84,
-        depositLimit: 4500.00,
-        accountNickname: 'Checking Account (...6917)');
+    depositCheckViewModel = DepositCheckViewModel(
+        accountInfo: AccountInfoStruct(
+            accountNumber: '1234567890126917',
+            availableBalance: 481.84,
+            depositLimit: 4500.00,
+            accountNickname: 'Checking Account (...6917)'),
+        depositAmount: '',
+        frontCheckImg: '',
+        backCheckImg: '',
+        referenceNumber: '');
 
     mockPressenterAction = MockPressenterAction();
     testWidget = MaterialApp(
       home: DepositCheckCardScreen(
-          viewModel: accountInfoViewModel,
+          viewModel: depositCheckViewModel,
           pressenterActions: mockPressenterAction),
     );
   });
 
   tearDown(() {
     testWidget = null;
-    accountInfoViewModel = null;
     mockPressenterAction = null;
   });
   group('Deposit Check Card', () {
@@ -54,12 +59,14 @@ void main() {
       // Deposit Limit
       expect(
           find.text(
-              'Your current mobile deposit limit is \$${accountInfoViewModel.depositLimit}'),
+              'Your current mobile deposit limit is \$${depositCheckViewModel.accountInfo.depositLimit}'),
           findsOneWidget);
       // Account To be deposit Name
-      expect(find.text(accountInfoViewModel.accountNickname), findsOneWidget);
+      expect(find.text(depositCheckViewModel.accountInfo.accountNickname),
+          findsOneWidget);
       // Current Balance
-      expect(find.text('\$${accountInfoViewModel.availableBalance}'),
+      expect(
+          find.text('\$${depositCheckViewModel.accountInfo.availableBalance}'),
           findsOneWidget);
     });
 

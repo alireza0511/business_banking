@@ -1,13 +1,13 @@
 import 'dart:ui';
 
-import 'package:business_banking/features/deposit_check/model/account_info_view_model.dart';
+import 'package:business_banking/features/deposit_check/model/deposit_check_view_model.dart';
 import 'package:clean_framework/clean_framework.dart';
 import 'package:flutter/material.dart';
 
 import 'deposit_check_card_presenter.dart';
 
 class DepositCheckCardScreen extends Screen {
-  final AccountInfoViewModel viewModel;
+  final DepositCheckViewModel viewModel;
   final DepositCheckCardPressenterActions pressenterActions;
 
   DepositCheckCardScreen(
@@ -33,7 +33,7 @@ class ItemCard extends StatelessWidget {
     required this.viewModel,
   }) : super(key: key);
 
-  final AccountInfoViewModel viewModel;
+  final DepositCheckViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -61,10 +61,6 @@ class ItemCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    // const Icon(
-                    //   Icons.arrow_forward_ios_rounded,
-                    //   color: Colors.grey,
-                    // )
                   ],
                 ),
               ),
@@ -72,11 +68,11 @@ class ItemCard extends StatelessWidget {
                 thickness: 2,
               ),
               Text(
-                "Your current mobile deposit limit is \$${viewModel.depositLimit}",
+                "Your current mobile deposit limit is \$${viewModel.accountInfo!.depositLimit}",
                 style: TextStyle(color: Colors.black54, fontSize: 15),
               ),
               Text(
-                '${viewModel.accountNickname}',
+                '${viewModel.accountInfo!.accountNickname}',
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 20,
@@ -85,7 +81,7 @@ class ItemCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 6),
                 child: Text(
-                  '\$${viewModel.availableBalance}',
+                  '\$${viewModel.accountInfo!.availableBalance}',
                   style: TextStyle(
                       color: Colors.green,
                       fontWeight: FontWeight.bold,

@@ -1,13 +1,14 @@
 import 'package:business_banking/features/account_detail/ui/account_detail_widget.dart';
 import 'package:business_banking/features/budget/ui/chart/view_chart_widget.dart';
 import 'package:business_banking/features/customer/ui/customer_detail_widget.dart';
-import 'package:business_banking/features/deposit_check/ui/deposit_check_feature_widget.dart';
+import 'package:business_banking/features/deposit_check/ui/deposit_check_widget.dart';
 import 'package:business_banking/features/hub/ui/hub_screen.dart';
 import 'package:business_banking/features/login/ui/login_feature_widget.dart';
 import 'package:business_banking/features/transfer_funds/ui/confirmation/transfer_confirmation_widget.dart';
 import 'package:business_banking/features/transfer_funds/ui/transfer_widget.dart';
 import 'package:flutter/material.dart';
 
+import 'features/deposit_check/ui/deposit_check_confirm_widget.dart';
 import 'features/investment_detail/ui/investment_detail_feature_widget.dart';
 
 abstract class BusinessBankingRouter {
@@ -20,6 +21,7 @@ abstract class BusinessBankingRouter {
   static const String viewBudgetChartRoute = '/viewBudgetChartRoute';
   static const String investmentDetailRoute = '/investmentDetail';
   static const String depositCheckRoute = '/depositCheck';
+  static const String depositCheckConfirmRoute = '/depositCheckConfirm';
 
   static Widget generate(String name) {
     switch (name) {
@@ -49,6 +51,9 @@ abstract class BusinessBankingRouter {
 
       case depositCheckRoute:
         return DepositCheckWidget();
+
+      case depositCheckConfirmRoute:
+        return DepositCheckConfirmWidget();
 
       default:
         return const PageNotFound();

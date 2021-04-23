@@ -1,4 +1,5 @@
 import 'package:business_banking/features/deposit_check/bloc/deposit_check_bloc.dart';
+import 'package:business_banking/features/deposit_check/model/account_info_struct.dart';
 import 'package:business_banking/features/deposit_check/model/deposit_check_view_model.dart';
 import 'package:business_banking/features/investment/bloc/investment_bloc.dart';
 import 'package:business_banking/features/investment/model/investment_view_model.dart';
@@ -11,11 +12,15 @@ class DepositCheckBlockMock extends Mock implements DepositCheckBloc {
       Pipe<DepositCheckViewModel>();
 
   DepositCheckViewModel depositCheckViewModelSample = DepositCheckViewModel(
-    accountNumber: '',
-    backCheckImg: '',
-    depositAmount: '',
-    frontCheckImg: '',
-  );
+      accountInfo: AccountInfoStruct(
+          accountNickname: '',
+          accountNumber: '',
+          availableBalance: 0.0,
+          depositLimit: 0.0),
+      backCheckImg: '',
+      depositAmount: '',
+      frontCheckImg: '',
+      referenceNumber: '');
 
   InvestmentBlockMock() {
     depositCheckViewModelPipe.whenListenedDo(() {

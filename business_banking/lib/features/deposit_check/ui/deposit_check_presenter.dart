@@ -1,62 +1,44 @@
 import 'package:business_banking/dependency/Image_picker_plugin.dart';
 import 'package:business_banking/dependency/permission_handler_plugin.dart';
 import 'package:business_banking/features/deposit_check/bloc/deposit_check_bloc.dart';
-import 'package:business_banking/features/deposit_check/model/account_info_view_model.dart';
 import 'package:business_banking/features/deposit_check/model/deposit_check_view_model.dart';
 import 'package:clean_framework/clean_framework.dart';
 import 'package:flutter/material.dart';
 
+import '../../../routes.dart';
 import 'deposit_check_screen.dart';
 
-class DepositCheckPresenter extends Presenter<
-    DepositCheckBloc,
-    DepositCheckViewModel
-    //AccountInfoViewModel
-    ,
-    DepositCheckScreen> {
-  // @override
-  // Stream<AccountInfoViewModel> getViewModelStream(DepositCheckBloc bloc) {
-  //  return bloc.accountInfoViewModelPipe.receive;
-  // }
-
+class DepositCheckPresenter extends Presenter<DepositCheckBloc,
+    DepositCheckViewModel, DepositCheckScreen> {
   @override
   Stream<DepositCheckViewModel> getViewModelStream(DepositCheckBloc bloc) {
     return bloc.depositCheckViewModelPipe.receive;
   }
 
   @override
-  void sendViewModelRequest(DepositCheckBloc bloc) {
-    // TODO: implement sendViewModelRequest
-    super.sendViewModelRequest(bloc);
-  }
-
-  @override
   DepositCheckScreen buildScreen(BuildContext context, DepositCheckBloc bloc,
-      DepositCheckViewModel viewModel
-      // AccountInfoViewModel viewModel
-      ) {
+      DepositCheckViewModel viewModel) {
     return DepositCheckScreen(
       viewModel: viewModel,
       pressenterAction: DepositCheckPressenterActions(
-          bloc, PermissionHandlerPlugin(), ImagePickerPlugin()),
+        bloc,
+      ),
     );
   }
 }
 
 class DepositCheckPressenterActions {
   DepositCheckBloc bloc;
-  final PermissionHandlerPlugin _permissionHandlerPluginImpl;
-  final ImagePickerPlugin _imagePickerPluginImpl;
 
-  DepositCheckPressenterActions(this.bloc, this._permissionHandlerPluginImpl,
-      this._imagePickerPluginImpl);
+  DepositCheckPressenterActions(this.bloc);
 
   popNavigationListener(BuildContext context) {
     CFRouterScope.of(context).pop();
   }
 
-  Future<AccountInfoViewModel> getAccInfo() async {
-    return await bloc.accountInfoViewModelPipe.receive.last;
+  navigateToDepositCheckConfirm(BuildContext context) {
+    CFRouterScope.of(context)
+        .push(BusinessBankingRouter.depositCheckConfirmRoute);
   }
 
   /// The email just added to check RegEx
@@ -74,7 +56,6 @@ class DepositCheckPressenterActions {
 
 //? can I have regExp in presenterActions
   onRegExValidation(String value) {
-    // TODO: regex function handler
     if (value.contains(RegExp(
             r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")) ==
         true) {
@@ -84,19 +65,19 @@ class DepositCheckPressenterActions {
     }
   }
 
-  void onTapConfirmBtn(GlobalKey<FormState> form) {
+  void onTapConfirmBtn(BuildContext context, GlobalKey<FormState> form) {
     if (form.currentState != null) {
       final isValid = form.currentState!.validate();
       if (isValid == false) return;
       form.currentState!.save();
 
       bloc.submitPipe.launch();
-    }
 
-    // TODO: get ref num from response model
-    // _showDialog(context, msg: 'Successful! your reference number is ');
+      navigateToDepositCheckConfirm(context);
+    }
   }
 
+  /// listens User action on pick front image of check
   void onPickFrontImg() async {
     bloc.frontImgPipe.send('front');
   }

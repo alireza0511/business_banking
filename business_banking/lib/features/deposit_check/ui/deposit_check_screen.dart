@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:business_banking/features/deposit_check/model/account_info_view_model.dart';
 import 'package:business_banking/features/deposit_check/model/deposit_check_view_model.dart';
 import 'package:clean_framework/clean_framework.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +10,6 @@ import 'deposit_check_presenter.dart';
 
 class DepositCheckScreen extends Screen {
   final DepositCheckViewModel viewModel;
-  // final AccountInfoViewModel viewModel;
   final DepositCheckPressenterActions pressenterAction;
 
   DepositCheckScreen({required this.viewModel, required this.pressenterAction});
@@ -50,7 +48,7 @@ class DepositCheckScreen extends Screen {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "Deposit to CHECKING ACCOUNT",
+                  "Deposit to " + viewModel.accountInfo!.accountNickname,
                   style: TextStyle(color: Colors.black54, fontSize: 15),
                   textAlign: TextAlign.left,
                 ),
@@ -72,18 +70,8 @@ class DepositCheckScreen extends Screen {
                               width: 160,
                               color: Colors.grey[300],
                               child: viewModel.frontCheckImg.isNotEmpty
-                                  ? Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        Image.memory(base64
-                                            .decode(viewModel.frontCheckImg)),
-                                        Icon(
-                                          Icons.check,
-                                          color: Colors.green,
-                                          size: 50,
-                                        )
-                                      ],
-                                    )
+                                  ? Image.memory(
+                                      base64.decode(viewModel.frontCheckImg))
                                   : Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -106,18 +94,8 @@ class DepositCheckScreen extends Screen {
                               width: 160,
                               color: Colors.grey[300],
                               child: viewModel.backCheckImg.isNotEmpty
-                                  ? Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        Image.memory(base64
-                                            .decode(viewModel.backCheckImg)),
-                                        Icon(
-                                          Icons.check,
-                                          color: Colors.green,
-                                          size: 50,
-                                        )
-                                      ],
-                                    )
+                                  ? Image.memory(
+                                      base64.decode(viewModel.backCheckImg))
                                   : Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -210,7 +188,7 @@ class DepositCheckScreen extends Screen {
                     key: Key('Deposit-Check-Confirm-Button'),
                     child: Text('Confirm'),
                     onPressed: () {
-                      pressenterAction.onTapConfirmBtn(_form);
+                      pressenterAction.onTapConfirmBtn(context, _form);
                     },
                   ),
                 ),
