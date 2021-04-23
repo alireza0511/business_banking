@@ -3,7 +3,7 @@ import 'package:business_banking/features/deposit_check/model/account_info_view_
 import 'package:clean_framework/clean_framework.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../routes.dart';
+import '../../../routes.dart';
 import 'deposit_check_card_screen.dart';
 
 class DepositCheckCardPresenter extends Presenter<DepositCheckBloc,

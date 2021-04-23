@@ -8,15 +8,20 @@ import 'package:flutter/material.dart';
 
 import 'deposit_check_screen.dart';
 
-class DepositCheckPresenter extends Presenter<DepositCheckBloc,
-    DepositCheckViewModel, DepositCheckScreen> {
+class DepositCheckPresenter extends Presenter<
+    DepositCheckBloc,
+    DepositCheckViewModel
+    //AccountInfoViewModel
+    ,
+    DepositCheckScreen> {
+  // @override
+  // Stream<AccountInfoViewModel> getViewModelStream(DepositCheckBloc bloc) {
+  //  return bloc.accountInfoViewModelPipe.receive;
+  // }
+
   @override
   Stream<DepositCheckViewModel> getViewModelStream(DepositCheckBloc bloc) {
-    //test purpose
-    //bloc.frontImgPipe.re;
-
     return bloc.depositCheckViewModelPipe.receive;
-    //return bloc.accountInfoViewModelPipe.receive;
   }
 
   @override
@@ -27,7 +32,9 @@ class DepositCheckPresenter extends Presenter<DepositCheckBloc,
 
   @override
   DepositCheckScreen buildScreen(BuildContext context, DepositCheckBloc bloc,
-      DepositCheckViewModel viewModel) {
+      DepositCheckViewModel viewModel
+      // AccountInfoViewModel viewModel
+      ) {
     return DepositCheckScreen(
       viewModel: viewModel,
       pressenterAction: DepositCheckPressenterActions(
@@ -46,6 +53,10 @@ class DepositCheckPressenterActions {
 
   popNavigationListener(BuildContext context) {
     CFRouterScope.of(context).pop();
+  }
+
+  Future<AccountInfoViewModel> getAccInfo() async {
+    return await bloc.accountInfoViewModelPipe.receive.last;
   }
 
   /// The email just added to check RegEx
@@ -73,11 +84,17 @@ class DepositCheckPressenterActions {
     }
   }
 
-  void onTapConfirm(BuildContext context, DepositCheckViewModel viewModel) {
-    bloc.submitPipe.launch();
+  void onTapConfirmBtn(GlobalKey<FormState> form) {
+    if (form.currentState != null) {
+      final isValid = form.currentState!.validate();
+      if (isValid == false) return;
+      form.currentState!.save();
+
+      bloc.submitPipe.launch();
+    }
 
     // TODO: get ref num from response model
-    _showDialog(context, msg: 'Successful! your reference number is ');
+    // _showDialog(context, msg: 'Successful! your reference number is ');
   }
 
   void onPickFrontImg() async {

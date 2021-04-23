@@ -4,7 +4,7 @@ import 'package:clean_framework/clean_framework.dart';
 
 import 'deposit_check_card_presenter.dart';
 
-class DepositCheckCardFeatureWidget extends StatelessWidget {
+class DepositCheckCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<DepositCheckBloc>(

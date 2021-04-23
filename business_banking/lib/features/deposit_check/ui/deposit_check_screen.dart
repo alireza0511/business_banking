@@ -11,6 +11,7 @@ import 'deposit_check_presenter.dart';
 
 class DepositCheckScreen extends Screen {
   final DepositCheckViewModel viewModel;
+  // final AccountInfoViewModel viewModel;
   final DepositCheckPressenterActions pressenterAction;
 
   DepositCheckScreen({required this.viewModel, required this.pressenterAction});
@@ -31,7 +32,7 @@ class DepositCheckScreen extends Screen {
             onTap: () {
               pressenterAction.popNavigationListener(context);
             },
-            key: Key('deposit-check-backButton'),
+            key: Key('Deposit-Check-Back-Button'),
           ),
           title: AutoSizeText(
             'DEPOSIT CHECKS',
@@ -61,65 +62,73 @@ class DepositCheckScreen extends Screen {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      GestureDetector(
-                        child: Container(
-                          height: 150,
-                          width: 160,
-                          color: Colors.grey[300],
-                          child: viewModel.frontCheckImg.isNotEmpty
-                              ? Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Image.memory(
-                                        base64.decode(viewModel.frontCheckImg)),
-                                    Icon(
-                                      Icons.check,
-                                      color: Colors.green,
-                                      size: 50,
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text('Front of Check'),
+                          GestureDetector(
+                            child: Container(
+                              height: 150,
+                              width: 160,
+                              color: Colors.grey[300],
+                              child: viewModel.frontCheckImg.isNotEmpty
+                                  ? Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        Image.memory(base64
+                                            .decode(viewModel.frontCheckImg)),
+                                        Icon(
+                                          Icons.check,
+                                          color: Colors.green,
+                                          size: 50,
+                                        )
+                                      ],
                                     )
-                                  ],
-                                )
-                              : Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text('Front of Check'),
-                                    Icon(Icons.camera_alt)
-                                  ],
-                                ),
-                        ),
-                        onTap: () {
-                          pressenterAction.onPickFrontImg();
-                        },
+                                  : Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [Icon(Icons.camera_alt)],
+                                    ),
+                            ),
+                            onTap: () {
+                              pressenterAction.onPickFrontImg();
+                            },
+                          ),
+                        ],
                       ),
-                      GestureDetector(
-                        child: Container(
-                          height: 150,
-                          width: 160,
-                          color: Colors.grey[300],
-                          child: viewModel.backCheckImg.isNotEmpty
-                              ? Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Image.memory(
-                                        base64.decode(viewModel.backCheckImg)),
-                                    Icon(
-                                      Icons.check,
-                                      color: Colors.green,
-                                      size: 50,
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text('Back of Check'),
+                          GestureDetector(
+                            child: Container(
+                              height: 150,
+                              width: 160,
+                              color: Colors.grey[300],
+                              child: viewModel.backCheckImg.isNotEmpty
+                                  ? Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        Image.memory(base64
+                                            .decode(viewModel.backCheckImg)),
+                                        Icon(
+                                          Icons.check,
+                                          color: Colors.green,
+                                          size: 50,
+                                        )
+                                      ],
                                     )
-                                  ],
-                                )
-                              : Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text('Back of Check'),
-                                    Icon(Icons.camera_alt)
-                                  ],
-                                ),
-                        ),
-                        onTap: () {
-                          pressenterAction.onPickBackImg();
-                        },
+                                  : Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [Icon(Icons.camera_alt)],
+                                    ),
+                            ),
+                            onTap: () {
+                              pressenterAction.onPickBackImg();
+                            },
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -132,6 +141,7 @@ class DepositCheckScreen extends Screen {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
+                          key: Key('Deposit-Check-Amount-Txtfild'),
                           decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               prefixIcon: Icon(Icons.attach_money_outlined),
@@ -156,6 +166,7 @@ class DepositCheckScreen extends Screen {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
+                          key: Key('Deposit-Check-Email-Txtfild'),
                           initialValue: '',
                           focusNode: _emailFNode,
                           decoration: InputDecoration(
@@ -196,16 +207,10 @@ class DepositCheckScreen extends Screen {
                   width: double.infinity,
                   height: 50,
                   child: OutlinedButton(
+                    key: Key('Deposit-Check-Confirm-Button'),
                     child: Text('Confirm'),
                     onPressed: () {
-                      //! it should be here or move to presenter
-                      if (_form.currentState != null) {
-                        final isValid = _form.currentState!.validate();
-                        if (isValid == false) return;
-                        _form.currentState!.save();
-
-                        pressenterAction.onTapConfirm(context, viewModel);
-                      }
+                      pressenterAction.onTapConfirmBtn(_form);
                     },
                   ),
                 ),

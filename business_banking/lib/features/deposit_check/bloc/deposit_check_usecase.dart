@@ -20,6 +20,9 @@ import '../../../locator.dart';
 
 class DepositCheckUseCase extends UseCase {
   late final ViewModelCallback<DepositCheckViewModel> _viewModelCallBack;
+  late final PermissionHandlerPlugin _permissionHandlerPluginImpl =
+      PermissionHandlerPlugin();
+  late final ImagePickerPlugin _imagePickerPluginImpl = ImagePickerPlugin();
 
   RepositoryScope? _scope;
   DepositCheckUseCase(
@@ -54,7 +57,6 @@ class DepositCheckUseCase extends UseCase {
   }
 
   void updateAmount(String amount) {
-    print('step#2: ' + amount);
     final entity = ExampleLocator().repository.get<DepositCheckEntity>(_scope!);
     final updatedEntity = entity.merge(depositAmount: amount);
     ExampleLocator()
@@ -62,21 +64,6 @@ class DepositCheckUseCase extends UseCase {
         .update<DepositCheckEntity>(_scope!, updatedEntity);
     _viewModelCallBack(buildViewModelU(updatedEntity));
   }
-
-  void updateImgs0(String img, {String type = 'front'}) {
-    final entity = ExampleLocator().repository.get<DepositCheckEntity>(_scope!);
-    final updatedEntity = type == 'front'
-        ? entity.merge(frontCheckImg: img)
-        : entity.merge(backCheckImg: img);
-    ExampleLocator()
-        .repository
-        .update<DepositCheckEntity>(_scope!, updatedEntity);
-    _viewModelCallBack(buildViewModelU(updatedEntity));
-  }
-
-  late final PermissionHandlerPlugin _permissionHandlerPluginImpl =
-      PermissionHandlerPlugin();
-  late final ImagePickerPlugin _imagePickerPluginImpl = ImagePickerPlugin();
 
   void updateImgs(String imgType) async {
     String img = '';
@@ -92,7 +79,7 @@ class DepositCheckUseCase extends UseCase {
     ExampleLocator()
         .repository
         .update<DepositCheckEntity>(_scope!, updatedEntity);
-    _viewModelCallBack(buildViewModelU(updatedEntity));
+    _viewModelCallBack(buildViewModel(updatedEntity));
   }
 
   DepositCheckViewModel buildViewModelU(DepositCheckEntity entity) {

@@ -1,14 +1,10 @@
 // @dart = 2.9
 import 'package:business_banking/features/deposit_check/model/account_info_view_model.dart';
-import 'package:business_banking/features/deposit_check/ui/card/deposit_check_card_presenter.dart';
-import 'package:business_banking/features/deposit_check/ui/card/deposit_check_card_screen.dart';
-import 'package:business_banking/features/deposit_check/ui/card/deposit_check_card_widget.dart';
-import 'package:clean_framework/clean_framework.dart';
+import 'package:business_banking/features/deposit_check/ui/deposit_check_card_presenter.dart';
+import 'package:business_banking/features/deposit_check/ui/deposit_check_card_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-
-import '../../bloc/deposit_check_bloc_mock.dart';
 
 class MockPressenterAction extends Mock
     implements DepositCheckCardPressenterActions {}
