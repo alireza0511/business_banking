@@ -61,7 +61,7 @@ class TransferFundsScreen extends Screen {
           TextField(
             key: Key('amount_text_field'),
             onChanged: (String value) {
-              onChangeAmount(value);
+              (value);
             },
             keyboardType: TextInputType.number,
             controller: _controller,

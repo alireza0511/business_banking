@@ -18,11 +18,12 @@ class DepositCheckBlockMock extends Mock implements DepositCheckBloc {
           availableBalance: 0.0,
           depositLimit: 0.0),
       backCheckImg: '',
-      depositAmount: '',
+      depositAmount: 0.0,
       frontCheckImg: '',
-      referenceNumber: '');
+      referenceNumber: '',
+      userEmail: '');
 
-  InvestmentBlockMock() {
+  DepositCheckBlockMock() {
     depositCheckViewModelPipe.whenListenedDo(() {
       depositCheckViewModelPipe.send(
         depositCheckViewModelSample,

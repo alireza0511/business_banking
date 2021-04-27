@@ -1,6 +1,7 @@
 import 'package:clean_framework/clean_framework.dart';
+import 'package:equatable/equatable.dart';
 
-class AccountInfoStruct {
+class AccountInfoStruct extends Equatable {
   final String accountNumber;
   final double availableBalance;
   final double depositLimit;
@@ -17,4 +18,9 @@ class AccountInfoStruct {
         availableBalance = json['availableBalance'] ?? 0.0,
         depositLimit = json['depositLimit'] ?? 0.0,
         accountNickname = json['accountNickname'] ?? '';
+
+  @override
+  // TODO: implement props
+  List<Object> get props =>
+      [accountNumber, availableBalance, depositLimit, accountNickname];
 }

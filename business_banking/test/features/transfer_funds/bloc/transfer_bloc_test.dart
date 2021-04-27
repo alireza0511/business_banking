@@ -50,6 +50,7 @@ void main() {
     );
     // testing transferFundsViewModelPipe
   }, timeout: Timeout(Duration(seconds: 3)));
+
   // This tests the from account value sent through the pipe
   test('testing fromAccountPipe', () async {
     resetEntityInRepository();

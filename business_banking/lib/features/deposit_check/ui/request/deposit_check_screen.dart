@@ -5,6 +5,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:business_banking/features/deposit_check/model/deposit_check_view_model.dart';
 import 'package:clean_framework/clean_framework.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 
 import 'deposit_check_presenter.dart';
 
@@ -15,9 +17,20 @@ class DepositCheckScreen extends Screen {
   DepositCheckScreen({required this.viewModel, required this.pressenterAction});
   final _form = GlobalKey<FormState>();
   final _emailFNode = FocusNode();
+  final _depositAmountTxtedCtrl = TextEditingController(text: '0.0');
+  final _userEmailTxtedCtrl = TextEditingController(text: '');
 
   @override
   Widget build(BuildContext context) {
+    _depositAmountTxtedCtrl.text = viewModel.depositAmount.toString();
+    _depositAmountTxtedCtrl.selection = TextSelection.fromPosition(
+        TextPosition(offset: _depositAmountTxtedCtrl.text.length));
+
+    _userEmailTxtedCtrl.text = viewModel.userEmail;
+    _userEmailTxtedCtrl.selection = TextSelection.fromPosition(
+      TextPosition(offset: _userEmailTxtedCtrl.text.length),
+    );
+
     return Scaffold(
         backgroundColor: Color(0xfff2f2f2),
         appBar: AppBar(
@@ -115,11 +128,14 @@ class DepositCheckScreen extends Screen {
               Form(
                   key: _form,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           key: Key('Deposit-Check-Amount-Txtfild'),
+                          controller: _depositAmountTxtedCtrl,
+                          autofocus: true,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               prefixIcon: Icon(Icons.attach_money_outlined),
@@ -129,7 +145,17 @@ class DepositCheckScreen extends Screen {
                           keyboardType:
                               TextInputType.numberWithOptions(decimal: true),
                           textInputAction: TextInputAction.next,
-                          onFieldSubmitted: (_) {
+                          // onChanged: (val) {
+                          //   pressenterAction
+                          //       .onDepositCheckAmountSavedListener(val);
+                          // },
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'^(\d+)?\.?\d{0,2}')),
+                          ],
+                          onFieldSubmitted: (val) {
+                            pressenterAction
+                                .onDepositCheckAmountSavedListener(val);
                             FocusScope.of(context).requestFocus(_emailFNode);
                           },
                           validator: (value) {
@@ -141,11 +167,19 @@ class DepositCheckScreen extends Screen {
                               .onDepositCheckAmountSavedListener(val ?? ''),
                         ),
                       ),
+                      if (viewModel.depositAmountStatus != null)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Text(
+                            viewModel.depositAmountStatus!,
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           key: Key('Deposit-Check-Email-Txtfild'),
-                          initialValue: '',
+                          controller: _userEmailTxtedCtrl,
                           focusNode: _emailFNode,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(),
@@ -158,15 +192,31 @@ class DepositCheckScreen extends Screen {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please provide a value.';
-                            } else {
-                              return pressenterAction.onRegExValidation(value);
                             }
-                            //return null;
+                            return null;
                           },
-                          onSaved: (val) =>
-                              pressenterAction.onFormSavedListener(val ?? ''),
+                          onFieldSubmitted: (val) {
+                            pressenterAction.onUserEmailSavedListener(val);
+                            FocusScope.of(context).requestFocus(FocusNode());
+                          },
+                          // onEditingComplete: () {
+                          //   print(_userEmailTxtedCtrl.text);
+                          // },
+                          // onChanged: (val) {
+                          //   pressenterAction.onUserEmailSavedListener(val);
+                          // },
+                          onSaved: (val) => pressenterAction
+                              .onUserEmailSavedListener(val ?? ''),
                         ),
-                      )
+                      ),
+                      if (viewModel.userEmailStatus != null)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Text(
+                            viewModel.userEmailStatus!,
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ),
                     ],
                   )),
               SizedBox(height: 40),
@@ -188,7 +238,8 @@ class DepositCheckScreen extends Screen {
                     key: Key('Deposit-Check-Confirm-Button'),
                     child: Text('Confirm'),
                     onPressed: () {
-                      pressenterAction.onTapConfirmBtn(context, _form);
+                      pressenterAction.onTapConfirmBtn(
+                          context, _form, viewModel);
                     },
                   ),
                 ),
