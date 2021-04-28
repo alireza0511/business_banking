@@ -17,8 +17,8 @@ class DepositCheckScreen extends Screen {
   DepositCheckScreen({required this.viewModel, required this.pressenterAction});
   final _form = GlobalKey<FormState>();
   final _emailFNode = FocusNode();
-  final _depositAmountTxtedCtrl = TextEditingController(text: '0.0');
-  final _userEmailTxtedCtrl = TextEditingController(text: '');
+  final _depositAmountTxtedCtrl = TextEditingController();
+  final _userEmailTxtedCtrl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +135,6 @@ class DepositCheckScreen extends Screen {
                         child: TextFormField(
                           key: Key('Deposit-Check-Amount-Txtfild'),
                           controller: _depositAmountTxtedCtrl,
-                          autofocus: true,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               prefixIcon: Icon(Icons.attach_money_outlined),
@@ -167,7 +166,8 @@ class DepositCheckScreen extends Screen {
                               .onDepositCheckAmountSavedListener(val ?? ''),
                         ),
                       ),
-                      if (viewModel.depositAmountStatus != null)
+                      if (viewModel.depositAmountStatus != null &&
+                          viewModel.depositAmountStatus!.isNotEmpty)
                         Padding(
                           padding: const EdgeInsets.only(left: 8.0),
                           child: Text(
@@ -209,7 +209,8 @@ class DepositCheckScreen extends Screen {
                               .onUserEmailSavedListener(val ?? ''),
                         ),
                       ),
-                      if (viewModel.userEmailStatus != null)
+                      if (viewModel.userEmailStatus != null &&
+                          viewModel.userEmailStatus!.isNotEmpty)
                         Padding(
                           padding: const EdgeInsets.only(left: 8.0),
                           child: Text(

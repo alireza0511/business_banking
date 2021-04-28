@@ -4,18 +4,18 @@ import 'package:business_banking/locator.dart';
 import 'package:clean_framework/clean_framework.dart';
 import 'package:clean_framework/clean_framework_defaults.dart';
 
-class CheckDepositService extends EitherService<CheckDepositServiceRequestModel,
-    CheckDepositServiceResponseModel> {
-  CheckDepositService()
+class DepositCheckService extends EitherService<DepositCheckServiceRequestModel,
+    DepositCheckServiceResponseModel> {
+  DepositCheckService()
       : super(
             method: RestMethod.post,
             restApi: ExampleLocator().api,
             path: 'deposit-check');
 
   @override
-  CheckDepositServiceResponseModel parseResponse(
+  DepositCheckServiceResponseModel parseResponse(
       Map<String, dynamic> jsonResponse) {
     print('CheckDepositService -- parseResponse');
-    return CheckDepositServiceResponseModel.fromJson(jsonResponse);
+    return DepositCheckServiceResponseModel.fromJson(jsonResponse);
   }
 }

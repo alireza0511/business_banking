@@ -6,28 +6,32 @@ import 'package:clean_framework/clean_framework.dart';
 
 import 'deposit_check_card_usecase.dart';
 import 'deposit_check_confirmation_usecase.dart';
+import 'deposit_check_event.dart';
 import 'deposit_check_usecase.dart';
 
 class DepositCheckBloc extends Bloc {
-  late final DepositCheckCardUseCase _depositCheckCardUseCase;
-  late final DepositCheckUseCase _depositCheckUseCase;
-  late final DepositCheckConfirmUseCase _depositCheckConfirmUseCase;
+  DepositCheckCardUseCase? _depositCheckCardUseCase;
+  DepositCheckUseCase? _depositCheckUseCase;
+  DepositCheckConfirmUseCase? _depositCheckConfirmUseCase;
+
+  final depositCheckEventPipe =
+      Pipe<DepositCheckEvent>(canSendDuplicateData: true);
 
   final depositCheckCardViewModelPipe = Pipe<DepositCheckCardViewModel>();
   final depositCheckViewModelPipe = Pipe<DepositCheckViewModel>();
   final depositCheckConfirmViewModelPipe = Pipe<DepositCheckConfirmViewModel>();
 
-  final accountInfoPipe = Pipe<AccountInfoStruct>();
+  // final accountInfoPipe = Pipe<AccountInfoStruct>();
 
-  final amountPipe = Pipe<double>();
-  final emailPipe = Pipe<String>();
-  final frontImgPipe = Pipe<String>();
-  final backImgPipe = Pipe<String>();
-  final imgPipe = Pipe<String>();
+  // final amountPipe = Pipe<double>();
+  // final emailPipe = Pipe<String>();
+  // final frontImgPipe = Pipe<String>();
+  // final backImgPipe = Pipe<String>();
+  // final imgPipe = Pipe<String>();
 
-  final submitPipe = EventPipe();
-  final resetViewModelPipe = EventPipe();
-  final resetServiceStatusPipe = EventPipe();
+  //final submitPipe = EventPipe();
+  // final resetViewModelPipe = EventPipe();
+  // final resetServiceStatusPipe = EventPipe();
 
   @override
   void dispose() {
@@ -35,78 +39,101 @@ class DepositCheckBloc extends Bloc {
     depositCheckViewModelPipe.dispose();
     depositCheckConfirmViewModelPipe.dispose();
 
-    accountInfoPipe.dispose();
+    depositCheckEventPipe.dispose();
 
-    frontImgPipe.dispose();
-    backImgPipe.dispose();
-    amountPipe.dispose();
-    emailPipe.dispose();
+    // accountInfoPipe.dispose();
 
-    submitPipe.dispose();
-    resetViewModelPipe.dispose();
-    resetServiceStatusPipe.dispose();
+    // se.dispose();
+
+    //submitPipe.dispose();
+    // resetViewModelPipe.dispose();
+    // resetServiceStatusPipe.dispose();
   }
 
-  DepositCheckBloc() {
-    _depositCheckCardUseCase =
+  DepositCheckBloc(
+      {DepositCheckCardUseCase? depositCheckCardUseCase,
+      DepositCheckUseCase? depositCheckUseCase,
+      DepositCheckConfirmUseCase? depositCheckConfirmUseCase}) {
+    _depositCheckCardUseCase = depositCheckCardUseCase ??
         DepositCheckCardUseCase(depositCheckCardViewModelPipe.send);
     depositCheckCardViewModelPipe
-        .whenListenedDo(() => _depositCheckCardUseCase.execute());
+        .whenListenedDo(() => _depositCheckCardUseCase!.execute());
 
-    _depositCheckUseCase = DepositCheckUseCase(depositCheckViewModelPipe.send);
+    _depositCheckUseCase = depositCheckUseCase ??
+        DepositCheckUseCase(depositCheckViewModelPipe.send);
     depositCheckViewModelPipe
-        .whenListenedDo(() => _depositCheckUseCase.execute());
+        .whenListenedDo(() => _depositCheckUseCase!.execute());
 
     _depositCheckConfirmUseCase =
         DepositCheckConfirmUseCase(depositCheckConfirmViewModelPipe.send);
     depositCheckConfirmViewModelPipe
-        .whenListenedDo(() => _depositCheckConfirmUseCase.execute());
+        .whenListenedDo(() => _depositCheckConfirmUseCase!.execute());
 
-    accountInfoPipe.receive.listen(accountInfoPipeHandler);
+    depositCheckEventPipe.receive.listen(depositCheckEventPipeHandler);
 
-    amountPipe.receive.listen(amountPipeHandler);
+    // accountInfoPipe.receive.listen(accountInfoPipeHandler);
 
-    emailPipe.receive.listen(emailPipeHandler);
+    //amountPipe.receive.listen(amountPipeHandler);
 
-    frontImgPipe.receive.listen(frontImgPipeHandler);
+    //emailPipe.receive.listen(emailPipeHandler);
 
-    backImgPipe.receive.listen(backImgPipeHandler);
+    //frontImgPipe.receive.listen(frontImgPipeHandler);
 
-    submitPipe.listen(submitHandler);
-    resetViewModelPipe.listen(resetViewModelHandler);
-    resetServiceStatusPipe.listen(resetServiceStatusHandler);
+    //backImgPipe.receive.listen(backImgPipeHandler);
+
+    //submitPipe.listen(submitHandler);
+    // resetViewModelPipe.listen(resetViewModelHandler);
+    // resetServiceStatusPipe.listen(resetServiceStatusHandler);
+  }
+
+  void depositCheckEventPipeHandler(DepositCheckEvent event) {
+    if (event is UpdateCheckAmountEvent) {
+      _depositCheckUseCase!.updateAmount(event.checkAmount);
+    } else if (event is UpdateUserEmailEvent) {
+      _depositCheckUseCase!.updateEmail(event.userEmail);
+    } else if (event is UpdateCheckImgEvent) {
+      _depositCheckUseCase!.updateImgs(event.imgType);
+    } else if (event is SubmitDepositCheckEvent) {
+      _depositCheckUseCase!.submitDepositCheck();
+    } else if (event is ResetDepositCheckViewModelEvent) {
+      _depositCheckConfirmUseCase!.resetViewModel();
+    } else if (event is ResetServiceStatusEvent) {
+      _depositCheckUseCase!.resetServiceStatus();
+    } else if (event is UpdateAccountInfoEvent) {
+      _depositCheckUseCase!.updateAccountInfo(event.accountInfo);
+    }
   }
 
   void accountInfoPipeHandler(AccountInfoStruct accountInfo) {
-    _depositCheckUseCase.updateAccountInfo(accountInfo);
+    _depositCheckUseCase!.updateAccountInfo(accountInfo);
   }
 
   void amountPipeHandler(double amount) {
-    _depositCheckUseCase.updateAmount(amount);
+    _depositCheckUseCase!.updateAmount(amount);
   }
 
   void emailPipeHandler(String email) {
-    _depositCheckUseCase.updateEmail(email);
+    _depositCheckUseCase!.updateEmail(email);
   }
 
   void frontImgPipeHandler(String imgType) {
-    _depositCheckUseCase.updateImgs(imgType);
+    _depositCheckUseCase!.updateImgs(imgType);
   }
 
   void backImgPipeHandler(String imgType) {
-    _depositCheckUseCase.updateImgs(imgType);
+    _depositCheckUseCase!.updateImgs(imgType);
   }
 
   void submitHandler() {
-    _depositCheckUseCase.confirmDepositCheck();
+    _depositCheckUseCase!.submitDepositCheck();
   }
 
   void resetViewModelHandler() {
-    _depositCheckUseCase.resetViewModel();
-    // _depositCheckConfirmationUseCase.resetViewModel();
+    //_depositCheckUseCase.resetViewModel();
+    _depositCheckConfirmUseCase!.resetViewModel();
   }
 
   void resetServiceStatusHandler() {
-    _depositCheckUseCase.resetServiceStatus();
+    _depositCheckUseCase!.resetServiceStatus();
   }
 }

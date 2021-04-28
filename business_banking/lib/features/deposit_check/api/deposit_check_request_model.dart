@@ -1,14 +1,14 @@
 import 'package:clean_framework/clean_framework_defaults.dart';
 import 'package:equatable/equatable.dart';
 
-class CheckDepositServiceRequestModel extends Equatable
+class DepositCheckServiceRequestModel extends Equatable
     implements JsonRequestModel {
   final String accountNumber;
   final double depositAmount;
   final String frontCheckImg;
   final String backCheckImg;
 
-  CheckDepositServiceRequestModel(
+  DepositCheckServiceRequestModel(
       {required this.accountNumber,
       required this.depositAmount,
       required this.frontCheckImg,

@@ -1,4 +1,5 @@
 import 'package:business_banking/features/deposit_check/bloc/deposit_check_bloc.dart';
+import 'package:business_banking/features/deposit_check/bloc/deposit_check_event.dart';
 import 'package:business_banking/features/deposit_check/model/deposit_check_card_view_model.dart';
 import 'package:business_banking/features/deposit_check/model/deposit_check_view_model.dart';
 import 'package:clean_framework/clean_framework.dart';
@@ -27,10 +28,13 @@ class DepositCheckCardPresenter extends Presenter<DepositCheckBloc,
 class DepositCheckCardPressenterActions {
   DepositCheckBloc bloc;
   DepositCheckCardViewModel viewModel;
+
   DepositCheckCardPressenterActions(this.bloc, this.viewModel);
 
   navigateToDepositCheck(BuildContext context) {
-    bloc.accountInfoPipe.send(viewModel.accountInfo);
+    // bloc.accountInfoPipe.send(viewModel.accountInfo);
+    bloc.depositCheckEventPipe
+        .send(UpdateAccountInfoEvent(viewModel.accountInfo));
     CFRouterScope.of(context).push(BusinessBankingRouter.depositCheckRoute);
   }
 }

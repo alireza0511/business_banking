@@ -1,6 +1,7 @@
 import 'package:business_banking/dependency/Image_picker_plugin.dart';
 import 'package:business_banking/dependency/permission_handler_plugin.dart';
 import 'package:business_banking/features/deposit_check/bloc/deposit_check_bloc.dart';
+import 'package:business_banking/features/deposit_check/bloc/deposit_check_event.dart';
 import 'package:business_banking/features/deposit_check/model/deposit_check_view_model.dart';
 import 'package:business_banking/features/deposit_check/model/enums.dart';
 import 'package:clean_framework/clean_framework.dart';
@@ -40,25 +41,26 @@ class DepositCheckPresenter extends Presenter<DepositCheckBloc,
     );
   }
 
-  void _showErrorDialog(BuildContext context, DepositCheckBloc bloc) {
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: Text('Error'),
-        content: Text('Submit Failed'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              bloc.resetServiceStatusPipe.launch();
-              Navigator.of(context).pop();
-              // CFRouterScope.of(context).pop();
-            },
-            child: Text('OK'),
-          )
-        ],
-      ),
-    );
-  }
+  // void _showErrorDialog(BuildContext context, DepositCheckBloc bloc) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (_) => AlertDialog(
+  //       title: Text('Error'),
+  //       content: Text('Submit Failed'),
+  //       actions: <Widget>[
+  //         TextButton(
+  //           onPressed: () {
+  //             bloc.resetServiceStatusPipe.launch();
+  //             Navigator.of(context).pop();
+  //             // CFRouterScope.of(context).pop();
+  //           },
+  //           child: Text('OK'),
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
+
 }
 
 class DepositCheckPressenterActions {
@@ -78,7 +80,7 @@ class DepositCheckPressenterActions {
   /// listens saved action on User email
   onUserEmailSavedListener(String emailString) {
     if (emailString.isNotEmpty) {
-      bloc.emailPipe.send(emailString);
+      bloc.depositCheckEventPipe.send(UpdateUserEmailEvent(emailString));
     }
   }
 
@@ -86,29 +88,23 @@ class DepositCheckPressenterActions {
   onDepositCheckAmountSavedListener(String amountString) {
     double? amount = double.tryParse(amountString);
     if (amountString.isNotEmpty && (amount != null && amount > 0)) {
-      bloc.amountPipe.send(amount);
+      bloc.depositCheckEventPipe.send(UpdateCheckAmountEvent(amount));
     }
   }
 
   /// listens action on pick front image of check
   void onPickFrontImg() async {
-    bloc.frontImgPipe.send('front');
+    // bloc.frontImgPipe.send('front');
+    bloc.depositCheckEventPipe.send(UpdateCheckImgEvent('front'));
   }
 
   /// listens action on pick back image of check
   void onPickBackImg() async {
-    bloc.backImgPipe.send('back');
+    // bloc.backImgPipe.send('back');
+    bloc.depositCheckEventPipe.send(UpdateCheckImgEvent('back'));
   }
 
   /// listens action on Confirm Button
-  void onTapConfirmBtn1(BuildContext context, DepositCheckViewModel viewModel) {
-    if (viewModel.userInputStatus == UserInputStatus.valid) {
-      bloc.submitPipe.launch();
-
-      //navigateToDepositCheckConfirm(context);
-    }
-  }
-
   void onTapConfirmBtn(BuildContext context, GlobalKey<FormState> form,
       DepositCheckViewModel viewModel) {
     if (form.currentState != null) {
@@ -116,7 +112,8 @@ class DepositCheckPressenterActions {
       if (isValid == false) return;
       form.currentState!.save();
       if (viewModel.userInputStatus == UserInputStatus.valid) {
-        bloc.submitPipe.launch();
+        bloc.depositCheckEventPipe.send(SubmitDepositCheckEvent());
+        // bloc.submitPipe.launch();
 
         navigateToDepositCheckConfirm(context);
       } else {

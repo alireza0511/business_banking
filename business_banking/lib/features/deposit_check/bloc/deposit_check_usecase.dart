@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:business_banking/dependency/Image_picker_plugin.dart';
 import 'package:business_banking/dependency/permission_handler_plugin.dart';
 import 'package:business_banking/features/deposit_check/bloc/deposit_check_service_adapter.dart';
@@ -11,7 +9,6 @@ import 'package:clean_framework/clean_framework.dart';
 import 'package:clean_framework/clean_framework_defaults.dart';
 
 import '../../../locator.dart';
-import 'account_info_service_adapter.dart';
 
 class DepositCheckUseCase extends UseCase {
   late final ViewModelCallback<DepositCheckViewModel> _viewModelCallBack;
@@ -35,13 +32,14 @@ class DepositCheckUseCase extends UseCase {
     }
 
     final entity = ExampleLocator().repository.get<DepositCheckEntity>(_scope!);
-    if (entity.accountInfo == null) {
-      // await ExampleLocator()
-      //     .repository
-      //     .runServiceAdapter(_scope!, AccountInfoServiceAdapter());
-    } else {
-      _notifySubscribers(entity);
-    }
+    // if (entity.accountInfo == null) {
+    //   // await ExampleLocator()
+    //   //     .repository
+    //   //     .runServiceAdapter(_scope!, AccountInfoServiceAdapter());
+    //   _notifySubscribers(entity);
+    // } else {
+    _notifySubscribers(entity);
+    // }
   }
 
   void _notifySubscribers(entity) {
@@ -136,7 +134,7 @@ class DepositCheckUseCase extends UseCase {
   //       .runServiceAdapter(_scope!, DepositCheckServiceAdapter());
   // }
 
-  Future<void> confirmDepositCheck() async {
+  Future<void> submitDepositCheck() async {
     final entity = ExampleLocator().repository.get<DepositCheckEntity>(_scope!);
     if (_checkUserInputEntity(entity) == UserInputStatus.valid) {
       await ExampleLocator()

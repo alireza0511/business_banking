@@ -1,6 +1,6 @@
 import 'package:business_banking/features/deposit_check/bloc/deposit_check_bloc.dart';
 import 'package:business_banking/features/deposit_check/model/deposit_check_confirm_view_model.dart';
-import 'package:business_banking/features/deposit_check/model/deposit_check_view_model.dart';
+import 'package:business_banking/features/deposit_check/bloc/deposit_check_event.dart';
 import 'package:clean_framework/clean_framework.dart';
 import 'package:flutter/material.dart';
 
@@ -20,15 +20,19 @@ class DepositCheckConfirmPresenter extends Presenter<DepositCheckBloc,
       DepositCheckBloc bloc, DepositCheckConfirmViewModel viewModel) {
     return DepositCheckConfirmScreen(
       viewModel: viewModel,
-      pressenterAction: DepositCheckConfirmPressenterActions(),
+      pressenterAction: DepositCheckConfirmPressenterActions(bloc),
     );
   }
 }
 
 class DepositCheckConfirmPressenterActions {
-  DepositCheckConfirmPressenterActions();
+  DepositCheckBloc bloc;
+  DepositCheckConfirmPressenterActions(this.bloc);
 
   popNavigationListener(BuildContext context) {
+    // bloc.resetServiceStatusPipe.launch();
+    //bloc.resetViewModelPipe.launch();
+    bloc.depositCheckEventPipe.send(ResetDepositCheckViewModelEvent());
     CFRouterScope.of(context).popUntil(BusinessBankingRouter.hubRoute);
   }
 }

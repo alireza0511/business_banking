@@ -1,12 +1,10 @@
 import 'package:business_banking/features/deposit_check/model/deposit_check_confirm_view_model.dart';
 import 'package:business_banking/features/deposit_check/model/deposit_check_entity.dart';
-import 'package:business_banking/features/deposit_check/model/deposit_check_view_model.dart';
 import 'package:business_banking/features/deposit_check/model/enums.dart';
 import 'package:clean_framework/clean_framework.dart';
 import 'package:clean_framework/clean_framework_defaults.dart';
 
 import '../../../locator.dart';
-import 'account_info_service_adapter.dart';
 
 class DepositCheckConfirmUseCase extends UseCase {
   late final ViewModelCallback<DepositCheckConfirmViewModel> _viewModelCallBack;

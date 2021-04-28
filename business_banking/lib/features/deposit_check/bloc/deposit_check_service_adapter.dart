@@ -6,10 +6,10 @@ import 'package:clean_framework/clean_framework.dart';
 
 class DepositCheckServiceAdapter extends ServiceAdapter<
     DepositCheckEntity,
-    CheckDepositServiceRequestModel,
-    CheckDepositServiceResponseModel,
-    CheckDepositService> {
-  DepositCheckServiceAdapter() : super(CheckDepositService());
+    DepositCheckServiceRequestModel,
+    DepositCheckServiceResponseModel,
+    DepositCheckService> {
+  DepositCheckServiceAdapter() : super(DepositCheckService());
 
   @override
   createEntity(initialEntity, responseModel) {
@@ -20,8 +20,8 @@ class DepositCheckServiceAdapter extends ServiceAdapter<
   }
 
   @override
-  CheckDepositServiceRequestModel createRequest(DepositCheckEntity entity) {
-    return CheckDepositServiceRequestModel(
+  DepositCheckServiceRequestModel createRequest(DepositCheckEntity entity) {
+    return DepositCheckServiceRequestModel(
         accountNumber: entity.accountInfo!.accountNumber,
         depositAmount: entity.depositAmount,
         backCheckImg: entity.backCheckImg,
