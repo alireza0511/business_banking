@@ -1,6 +1,5 @@
 import 'package:business_banking/dependency/Image_picker_plugin.dart';
 import 'package:business_banking/dependency/permission_handler_plugin.dart';
-import 'package:business_banking/features/deposit_check/bloc/deposit_check_service_adapter.dart';
 import 'package:business_banking/features/deposit_check/model/account_info_struct.dart';
 import 'package:business_banking/features/deposit_check/model/deposit_check_entity.dart';
 import 'package:business_banking/features/deposit_check/model/deposit_check_view_model.dart';
@@ -8,7 +7,8 @@ import 'package:business_banking/features/deposit_check/model/enums.dart';
 import 'package:clean_framework/clean_framework.dart';
 import 'package:clean_framework/clean_framework_defaults.dart';
 
-import '../../../locator.dart';
+import '../../../../locator.dart';
+import 'deposit_check_service_adapter.dart';
 
 class DepositCheckUseCase extends UseCase {
   late final ViewModelCallback<DepositCheckViewModel> _viewModelCallBack;

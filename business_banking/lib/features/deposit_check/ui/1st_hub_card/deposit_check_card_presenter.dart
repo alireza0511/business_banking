@@ -1,10 +1,9 @@
-import 'package:business_banking/features/deposit_check/bloc/deposit_check_bloc.dart';
-import 'package:business_banking/features/deposit_check/bloc/deposit_check_event.dart';
-import 'package:business_banking/features/deposit_check/model/deposit_check_card_view_model.dart';
-import 'package:business_banking/features/deposit_check/model/deposit_check_view_model.dart';
 import 'package:clean_framework/clean_framework.dart';
 import 'package:flutter/material.dart';
 
+import '../../bloc/deposit_check_bloc.dart';
+import '../../bloc/deposit_check_event.dart';
+import '../../model/deposit_check_card_view_model.dart';
 import '../../../../routes.dart';
 import 'deposit_check_card_screen.dart';
 
@@ -32,8 +31,7 @@ class DepositCheckCardPressenterActions {
   DepositCheckCardPressenterActions(this.bloc, this.viewModel);
 
   navigateToDepositCheck(BuildContext context) {
-    // bloc.accountInfoPipe.send(viewModel.accountInfo);
-    bloc.depositCheckEventPipe
+    bloc.depositCheckCardEventPipe
         .send(UpdateAccountInfoEvent(viewModel.accountInfo));
     CFRouterScope.of(context).push(BusinessBankingRouter.depositCheckRoute);
   }

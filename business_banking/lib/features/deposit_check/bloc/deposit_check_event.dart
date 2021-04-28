@@ -2,7 +2,11 @@ import 'package:equatable/equatable.dart';
 
 import 'package:business_banking/features/deposit_check/model/account_info_struct.dart';
 
+abstract class DepositCheckCardEvent extends Equatable {}
+
 abstract class DepositCheckEvent extends Equatable {}
+
+abstract class DepositCheckConfirmEvent extends Equatable {}
 
 class UpdateCheckAmountEvent implements DepositCheckEvent {
   final double checkAmount;
@@ -14,9 +18,6 @@ class UpdateCheckAmountEvent implements DepositCheckEvent {
 
   @override
   bool get stringify => true;
-
-  @override
-  String toString() => 'UpdatCheckAmount(checkAmount: $checkAmount)';
 }
 
 class UpdateUserEmailEvent implements DepositCheckEvent {
@@ -29,9 +30,6 @@ class UpdateUserEmailEvent implements DepositCheckEvent {
 
   @override
   bool get stringify => true;
-
-  @override
-  String toString() => 'UpdateUserEmailEvent(userEmail: $userEmail)';
 }
 
 class UpdateCheckImgEvent implements DepositCheckEvent {
@@ -44,12 +42,9 @@ class UpdateCheckImgEvent implements DepositCheckEvent {
 
   @override
   bool get stringify => true;
-
-  @override
-  String toString() => 'UpdateCheckImgEvent(imgType: $imgType)';
 }
 
-class UpdateAccountInfoEvent implements DepositCheckEvent {
+class UpdateAccountInfoEvent implements DepositCheckCardEvent {
   final AccountInfoStruct accountInfo;
 
   UpdateAccountInfoEvent(this.accountInfo);
@@ -59,9 +54,6 @@ class UpdateAccountInfoEvent implements DepositCheckEvent {
 
   @override
   bool get stringify => true;
-
-  @override
-  String toString() => 'UpdateAccountInfoEvent(accountInfo: $accountInfo)';
 }
 
 class SubmitDepositCheckEvent implements DepositCheckEvent {
@@ -72,12 +64,9 @@ class SubmitDepositCheckEvent implements DepositCheckEvent {
 
   @override
   bool get stringify => true;
-
-  @override
-  String toString() => 'SubmitDepositCheckEvent';
 }
 
-class ResetDepositCheckViewModelEvent implements DepositCheckEvent {
+class ResetDepositCheckViewModelEvent implements DepositCheckConfirmEvent {
   ResetDepositCheckViewModelEvent();
 
   @override
@@ -85,12 +74,9 @@ class ResetDepositCheckViewModelEvent implements DepositCheckEvent {
 
   @override
   bool get stringify => true;
-
-  @override
-  String toString() => 'ResetDepositCheckViewModelEvent';
 }
 
-class ResetServiceStatusEvent implements DepositCheckEvent {
+class ResetServiceStatusEvent implements DepositCheckConfirmEvent {
   ResetServiceStatusEvent();
 
   @override
@@ -98,7 +84,4 @@ class ResetServiceStatusEvent implements DepositCheckEvent {
 
   @override
   bool get stringify => true;
-
-  @override
-  String toString() => 'ResetServiceStatusEvent';
 }

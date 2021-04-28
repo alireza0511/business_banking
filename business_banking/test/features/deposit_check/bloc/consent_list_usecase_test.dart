@@ -3,10 +3,10 @@ import 'package:business_banking/features/deposit_check/bloc/deposit_check_confi
 import 'package:business_banking/features/deposit_check/bloc/deposit_check_usecase.dart';
 import 'package:mockito/mockito.dart';
 
-class MockDepositCheckCardBlockMock extends Mock
+class MockDepositCheckCardUseCase extends Mock
     implements DepositCheckCardUseCase {}
 
-class MockDepositCheckBlockMock extends Mock implements DepositCheckUseCase {}
+class MockDepositCheckUseCase extends Mock implements DepositCheckUseCase {}
 
-class MockDepositCheckConfirmBlockMock extends Mock
+class MockDepositCheckConfirmUseCase extends Mock
     implements DepositCheckConfirmUseCase {}

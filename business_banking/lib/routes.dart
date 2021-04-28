@@ -7,8 +7,8 @@ import 'package:business_banking/features/transfer_funds/ui/confirmation/transfe
 import 'package:business_banking/features/transfer_funds/ui/transfer_widget.dart';
 import 'package:flutter/material.dart';
 
-import 'features/deposit_check/ui/confirmation/deposit_check_confirm_widget.dart';
-import 'features/deposit_check/ui/request/deposit_check_widget.dart';
+import 'features/deposit_check/ui/2nd_data_entry/deposit_check_widget.dart';
+import 'features/deposit_check/ui/3rd_request_confirmation/deposit_check_confirm_widget.dart';
 import 'features/investment_detail/ui/investment_detail_feature_widget.dart';
 
 abstract class BusinessBankingRouter {

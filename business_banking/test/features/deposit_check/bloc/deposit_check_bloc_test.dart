@@ -3,77 +3,155 @@ import 'package:business_banking/features/deposit_check/bloc/deposit_check_bloc.
 import 'package:business_banking/features/deposit_check/bloc/deposit_check_event.dart';
 import 'package:business_banking/features/deposit_check/model/account_info_struct.dart';
 import 'package:business_banking/features/deposit_check/model/deposit_check_card_view_model.dart';
-import 'package:business_banking/features/deposit_check/model/enums.dart';
+import 'package:business_banking/features/deposit_check/model/deposit_check_view_model.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
 import 'consent_list_usecase_test.dart';
-import 'deposit_check_bloc_mock.dart';
 
 void main() {
   DepositCheckBloc bloc;
 
-  MockDepositCheckCardBlockMock mockDepositCheckCardBlockMock;
-  MockDepositCheckBlockMock mockDepositCheckBlockMock;
-  MockDepositCheckConfirmBlockMock mockDepositCheckConfirmBlockMock;
+  MockDepositCheckCardUseCase mockDepositCheckCardUseCase;
+  MockDepositCheckUseCase mockDepositCheckUseCase;
+  MockDepositCheckConfirmUseCase mockDepositCheckConfirmUseCase;
 
-  DepositCheckCardViewModel depositCheckCardViewModel;
+  //DepositCheckCardViewModel depositCheckCardViewModel;
 
   setUp(() {
-    mockDepositCheckCardBlockMock = MockDepositCheckCardBlockMock();
-    mockDepositCheckBlockMock = MockDepositCheckBlockMock();
-    mockDepositCheckConfirmBlockMock = MockDepositCheckConfirmBlockMock();
+    mockDepositCheckCardUseCase = MockDepositCheckCardUseCase();
+    mockDepositCheckUseCase = MockDepositCheckUseCase();
+    mockDepositCheckConfirmUseCase = MockDepositCheckConfirmUseCase();
 
     bloc = DepositCheckBloc(
-        depositCheckCardUseCase: mockDepositCheckCardBlockMock,
-        depositCheckUseCase: mockDepositCheckBlockMock,
-        depositCheckConfirmUseCase: mockDepositCheckConfirmBlockMock);
-    // DepositCheckCardViewModel value same as Api Response
-    depositCheckCardViewModel = DepositCheckCardViewModel(
-        accountInfo: AccountInfoStruct(
-            accountNickname: 'Checking Account (...6917)',
-            accountNumber: '1234567890126917',
-            availableBalance: 481.84,
-            depositLimit: 4500.00),
-        serviceResponseStatus: ServiceResponseStatus.succeed);
+        depositCheckCardUseCase: mockDepositCheckCardUseCase,
+        depositCheckUseCase: mockDepositCheckUseCase,
+        depositCheckConfirmUseCase: mockDepositCheckConfirmUseCase);
   });
 
+  tearDown(() {
+    bloc.dispose();
+    expect(bloc.depositCheckCardViewModelPipe.receive, emitsDone);
+    expect(bloc.depositCheckViewModelPipe.receive, emitsDone);
+    expect(bloc.depositCheckConfirmViewModelPipe.receive, emitsDone);
+    expect(bloc.depositCheckEventPipe.receive, emitsDone);
+  });
   group('Deposit Check Bloc', () {
     final double tCheckAmount = 2000.00;
     final String tUserEmail = 'alireza@hnb.com';
     final String tImgType = 'front';
-    // test('should value receive from pipe be the same as source value', () {
-    //   bloc.depositCheckCardViewModelPipe.receive.listen(expectAsync1((model) {
-    //     expect(model, depositCheckCardViewModel);
-    //   }));
-    // }, timeout: Timeout(Duration(seconds: 3)));
+    final AccountInfoStruct tAccountInfo = AccountInfoStruct(
+        accountNickname: 'Checking Account (...6917)',
+        accountNumber: '1234567890126917',
+        availableBalance: 481.84,
+        depositLimit: 4500.00);
 
-    test('should UpdateCheckAmountEvent update the check amount', () async {
+    test(
+        'should depositCheckCardViewModelPipe gets view model with real usecase',
+        () {
+      bloc.depositCheckCardViewModelPipe
+          .send(DepositCheckCardViewModel(accountInfo: tAccountInfo));
+      bloc.depositCheckCardViewModelPipe.receive.listen((model) {
+        verify(mockDepositCheckCardUseCase.execute()).called(1);
+      });
+    });
+    test('should depositCheckViewModelPipe gets view model with real usecase',
+        () {
+      bloc.depositCheckViewModelPipe
+          .send(DepositCheckViewModel(accountInfo: tAccountInfo));
+      bloc.depositCheckViewModelPipe.receive.listen((model) {
+        verify(mockDepositCheckUseCase.execute()).called(1);
+      });
+    });
+    // test('should depositCheckConfirmViewModelPipe gets view model with usecase',
+    //     () {
+    //   bloc.depositCheckConfirmViewModelPipe.receive.listen((model) {
+    //     expect(model, isA<DepositCheckConfirmViewModel>());
+    //   });
+    // });
+
+    test('should depositCheckEventPipeHandler calls correct method', () {
       bloc.depositCheckEventPipe.receive.listen((event) {
         if (event is UpdateCheckAmountEvent) {
-          verify(mockDepositCheckBlockMock.updateAmount(event.checkAmount))
-              .called(1);
+          verify(mockDepositCheckUseCase.updateAmount(tCheckAmount)).called(1);
         }
+        if (event is UpdateUserEmailEvent) {
+          verify(mockDepositCheckUseCase.updateEmail(tUserEmail)).called(1);
+        }
+        if (event is UpdateCheckImgEvent) {
+          verify(mockDepositCheckUseCase.updateImgs(tImgType)).called((1));
+        }
+        if (event is UpdateAccountInfoEvent) {
+          verify(mockDepositCheckUseCase.updateAccountInfo(tAccountInfo))
+              .called((1));
+        }
+        if (event is SubmitDepositCheckEvent) {
+          verify(mockDepositCheckUseCase.submitDepositCheck()).called((1));
+        }
+        if (event is ResetDepositCheckViewModelEvent) {
+          //verify(mockDepositCheckUseCase.resetViewModel()).called(1);
+        }
+        if (event is ResetServiceStatusEvent) {
+          verify(mockDepositCheckUseCase.resetServiceStatus()).called((1));
+        }
+      });
+
+      bloc.depositCheckEventPipeHandler(UpdateCheckAmountEvent(tCheckAmount));
+      bloc.depositCheckEventPipeHandler(UpdateUserEmailEvent(tUserEmail));
+      bloc.depositCheckEventPipeHandler(UpdateCheckImgEvent(tImgType));
+      bloc.depositCheckEventPipeHandler(UpdateAccountInfoEvent(tAccountInfo));
+      bloc.depositCheckEventPipeHandler(SubmitDepositCheckEvent());
+      bloc.depositCheckEventPipeHandler(ResetServiceStatusEvent());
+    });
+    test('should update the check amount by UpdateCheckAmountEvent func',
+        () async {
+      bloc.depositCheckViewModelPipe.receive.listen((event) {
+        expect(event.depositAmount, tCheckAmount);
       });
       bloc.depositCheckEventPipe.send(UpdateCheckAmountEvent(tCheckAmount));
     });
-    test('should UpdateUserEmailEvent update the user email', () {
-      bloc.depositCheckEventPipe.receive.listen((event) {
-        if (event is UpdateUserEmailEvent) {
-          verify(mockDepositCheckBlockMock.updateEmail(event.userEmail))
-              .called(1);
-        }
+
+    test(
+        'should update the userEmail and userEmailStatus by UpdateUserEmailEvent func',
+        () {
+      bloc.depositCheckViewModelPipe.receive.listen((event) {
+        expect(event.userEmail, tUserEmail);
+        expect(event.userEmailStatus, '');
       });
       bloc.depositCheckEventPipe.send(UpdateUserEmailEvent(tUserEmail));
     });
+
+    test('should update the account info by UpdateAccountInfoEvent func', () {
+      bloc.depositCheckViewModelPipe.receive.listen((event) {
+        expect(event.accountInfo, tAccountInfo);
+      });
+      bloc.depositCheckEventPipe.send(UpdateAccountInfoEvent(tAccountInfo));
+    });
+
     test('should UpdateCheckImgEvent update the check img', () {
-      bloc.depositCheckEventPipe.receive.listen((event) {
-        if (event is UpdateCheckImgEvent) {
-          verify(mockDepositCheckBlockMock.updateImgs(event.imgType)).called(1);
-        }
+      bloc.depositCheckViewModelPipe.receive.listen((event) {
+        expect(event.frontCheckImg, isNotNull);
       });
       bloc.depositCheckEventPipe.send(UpdateCheckImgEvent(tImgType));
     });
-    test('description', () async {});
+
+    test(
+        'should error update the userEmail and userEmailStatus by UpdateUserEmailEvent func',
+        () async {
+      mockDepositCheckUseCase.updateAmount(10.0);
+      bloc.depositCheckEventPipe.send(UpdateCheckAmountEvent(10.0));
+      bloc.depositCheckViewModelPipe.receive.listen(
+        (event) {
+          print(event.depositAmount);
+          expect(event.depositAmount, '');
+        },
+      );
+    });
+    test('should return probs correctly', () async {
+      UpdateCheckAmountEvent updateCheckAmountEvent =
+          UpdateCheckAmountEvent(10.0);
+      updateCheckAmountEvent.props;
+      expect(updateCheckAmountEvent.props, [10.0]);
+    });
   });
 }

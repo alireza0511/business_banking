@@ -12,7 +12,5 @@ class DepositCheckCardViewModel extends ViewModel {
       this.serviceResponseStatus = ServiceResponseStatus.unknown});
 
   @override
-  List<Object> get props => [
-        accountInfo,
-      ];
+  List<Object> get props => [accountInfo];
 }

@@ -15,7 +15,6 @@ class DepositCheckService extends EitherService<DepositCheckServiceRequestModel,
   @override
   DepositCheckServiceResponseModel parseResponse(
       Map<String, dynamic> jsonResponse) {
-    print('CheckDepositService -- parseResponse');
     return DepositCheckServiceResponseModel.fromJson(jsonResponse);
   }
 }

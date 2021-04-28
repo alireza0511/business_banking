@@ -1,4 +1,3 @@
-import 'package:clean_framework/clean_framework.dart';
 import 'package:equatable/equatable.dart';
 
 class AccountInfoStruct extends Equatable {
@@ -20,7 +19,6 @@ class AccountInfoStruct extends Equatable {
         accountNickname = json['accountNickname'] ?? '';
 
   @override
-  // TODO: implement props
   List<Object> get props =>
       [accountNumber, availableBalance, depositLimit, accountNickname];
 }
