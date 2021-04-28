@@ -1,5 +1,5 @@
 // @dart=2.9
-import 'package:business_banking/features/deposit_check/ui/card/deposit_check_card_widget.dart';
+import 'package:business_banking/features/deposit_check/ui/1st_hub_card/deposit_check_card_widget.dart';
 import 'package:clean_framework/clean_framework.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';

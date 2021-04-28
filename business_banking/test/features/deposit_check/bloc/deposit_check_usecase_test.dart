@@ -1,10 +1,6 @@
 // @dart=2.9
-import 'package:business_banking/features/deposit_check/bloc/deposit_check_bloc.dart';
-import 'package:business_banking/features/deposit_check/bloc/deposit_check_usecase.dart';
-import 'package:business_banking/features/deposit_check/model/account_info_struct.dart';
-import 'package:business_banking/features/deposit_check/model/deposit_check_card_view_model.dart';
+import 'package:business_banking/features/deposit_check/bloc/2nd_data_entry/deposit_check_usecase.dart';
 import 'package:business_banking/features/deposit_check/model/deposit_check_view_model.dart';
-import 'package:business_banking/features/deposit_check/model/enums.dart';
 import 'package:test/test.dart';
 
 import 'deposit_check_bloc_mock.dart';

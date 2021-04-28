@@ -99,9 +99,11 @@ void main() {
       bloc.depositCheckEventPipeHandler(UpdateCheckAmountEvent(tCheckAmount));
       bloc.depositCheckEventPipeHandler(UpdateUserEmailEvent(tUserEmail));
       bloc.depositCheckEventPipeHandler(UpdateCheckImgEvent(tImgType));
-      bloc.depositCheckEventPipeHandler(UpdateAccountInfoEvent(tAccountInfo));
       bloc.depositCheckEventPipeHandler(SubmitDepositCheckEvent());
-      bloc.depositCheckEventPipeHandler(ResetServiceStatusEvent());
+
+      bloc.depositCheckCardEventPipeHandler(
+          UpdateAccountInfoEvent(tAccountInfo));
+      bloc.depositCheckConfirmEventPipeHandler(ResetServiceStatusEvent());
     });
     test('should update the check amount by UpdateCheckAmountEvent func',
         () async {
@@ -125,7 +127,7 @@ void main() {
       bloc.depositCheckViewModelPipe.receive.listen((event) {
         expect(event.accountInfo, tAccountInfo);
       });
-      bloc.depositCheckEventPipe.send(UpdateAccountInfoEvent(tAccountInfo));
+      bloc.depositCheckCardEventPipe.send(UpdateAccountInfoEvent(tAccountInfo));
     });
 
     test('should UpdateCheckImgEvent update the check img', () {

@@ -1,8 +1,8 @@
 // @dart = 2.9
 import 'package:business_banking/features/deposit_check/model/account_info_struct.dart';
 import 'package:business_banking/features/deposit_check/model/deposit_check_card_view_model.dart';
-import 'package:business_banking/features/deposit_check/ui/card/deposit_check_card_presenter.dart';
-import 'package:business_banking/features/deposit_check/ui/card/deposit_check_card_screen.dart';
+import 'package:business_banking/features/deposit_check/ui/1st_hub_card/deposit_check_card_presenter.dart';
+import 'package:business_banking/features/deposit_check/ui/1st_hub_card/deposit_check_card_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

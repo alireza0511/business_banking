@@ -1,5 +1,5 @@
 // @dart=2.9
-import 'package:business_banking/features/deposit_check/bloc/deposit_check_card_usecase.dart';
+import 'package:business_banking/features/deposit_check/bloc/1st_hub_card/deposit_check_card_usecase.dart';
 import 'package:business_banking/features/deposit_check/model/account_info_struct.dart';
 import 'package:business_banking/features/deposit_check/model/deposit_check_card_entity.dart';
 import 'package:business_banking/features/deposit_check/model/deposit_check_card_view_model.dart';

@@ -1,7 +1,6 @@
 // @dart=2.9
 import 'package:business_banking/features/deposit_check/api/account_info_response_model.dart';
-import 'package:business_banking/features/deposit_check/api/account_info_service.dart';
-import 'package:business_banking/features/deposit_check/bloc/account_info_service_adapter.dart';
+import 'package:business_banking/features/deposit_check/bloc/1st_hub_card/account_info_service_adapter.dart';
 import 'package:business_banking/features/deposit_check/model/account_info_struct.dart';
 import 'package:business_banking/features/deposit_check/model/deposit_check_card_entity.dart';
 import 'package:test/test.dart';
