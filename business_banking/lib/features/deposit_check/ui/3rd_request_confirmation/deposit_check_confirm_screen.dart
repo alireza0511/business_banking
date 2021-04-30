@@ -3,7 +3,6 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:business_banking/core/Util/util.dart';
 import 'package:business_banking/features/deposit_check/model/3rd_request_confirmation/deposit_check_confirm_view_model.dart';
 import 'package:business_banking/features/deposit_check/model/enums.dart';
 import 'package:clean_framework/clean_framework.dart';
