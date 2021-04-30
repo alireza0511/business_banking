@@ -16,7 +16,7 @@ class DepositCheckCardEntity extends Entity {
         super(errors: errors);
 
   @override
-  List<Object> get probs => [errors, accountInfo];
+  List<Object> get props => [errors, accountInfo];
 
   @override
   DepositCheckCardEntity merge({

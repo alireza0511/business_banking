@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:business_banking/features/deposit_check/model/deposit_check_confirm_view_model.dart';
+import 'package:business_banking/core/Util/util.dart';
+import 'package:business_banking/features/deposit_check/model/3rd_request_confirmation/deposit_check_confirm_view_model.dart';
 import 'package:business_banking/features/deposit_check/model/enums.dart';
 import 'package:clean_framework/clean_framework.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +32,7 @@ class DepositCheckConfirmScreen extends Screen {
             onTap: () {
               pressenterAction.popNavigationListener(context);
             },
-            key: Key('Deposit-Check-Confirm-Back-Button'),
+            key: Key('Deposit-Check-Confirm-Close-Button'),
           ),
           title: AutoSizeText(
             'CONFIRMATION',
@@ -86,8 +88,8 @@ class _succeedWidget extends StatelessWidget {
                         ? Stack(
                             alignment: Alignment.center,
                             children: [
-                              Image.memory(
-                                base64.decode(viewModel.frontCheckImg),
+                              Image.file(
+                                File(viewModel.frontCheckImg),
                                 fit: BoxFit.fill,
                               ),
                               Icon(
@@ -97,9 +99,10 @@ class _succeedWidget extends StatelessWidget {
                               )
                             ],
                           )
-                        : Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [Icon(Icons.camera_alt)],
+                        : Image.asset(
+                            'assets/images/img-icon.png',
+                            fit: BoxFit.scaleDown,
+                            scale: 10,
                           ),
                   ),
                 ],
@@ -122,8 +125,8 @@ class _succeedWidget extends StatelessWidget {
                         ? Stack(
                             alignment: Alignment.center,
                             children: [
-                              Image.memory(
-                                base64.decode(viewModel.backCheckImg),
+                              Image.file(
+                                File(viewModel.backCheckImg),
                                 fit: BoxFit.fill,
                               ),
                               Icon(
@@ -133,9 +136,10 @@ class _succeedWidget extends StatelessWidget {
                               )
                             ],
                           )
-                        : Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [Icon(Icons.camera_alt)],
+                        : Image.asset(
+                            'assets/images/img-icon.png',
+                            fit: BoxFit.scaleDown,
+                            scale: 10,
                           ),
                   ),
                 ],

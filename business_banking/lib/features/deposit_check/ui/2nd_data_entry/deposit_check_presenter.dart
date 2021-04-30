@@ -1,8 +1,8 @@
 import 'package:business_banking/dependency/Image_picker_plugin.dart';
 import 'package:business_banking/dependency/permission_handler_plugin.dart';
+import 'package:business_banking/features/deposit_check/bloc/2nd_data_entry/deposit_check_event.dart';
 import 'package:business_banking/features/deposit_check/bloc/deposit_check_bloc.dart';
-import 'package:business_banking/features/deposit_check/bloc/deposit_check_event.dart';
-import 'package:business_banking/features/deposit_check/model/deposit_check_view_model.dart';
+import 'package:business_banking/features/deposit_check/model/2nd_data_entry/deposit_check_view_model.dart';
 import 'package:business_banking/features/deposit_check/model/enums.dart';
 import 'package:clean_framework/clean_framework.dart';
 import 'package:flutter/material.dart';
@@ -95,13 +95,13 @@ class DepositCheckPressenterActions {
   /// listens action on pick front image of check
   void onPickFrontImg() async {
     // bloc.frontImgPipe.send('front');
-    bloc.depositCheckEventPipe.send(UpdateCheckImgEvent('front'));
+    bloc.depositCheckEventPipe.send(UpdateCheckImgEvent(CheckImageType.front));
   }
 
   /// listens action on pick back image of check
   void onPickBackImg() async {
     // bloc.backImgPipe.send('back');
-    bloc.depositCheckEventPipe.send(UpdateCheckImgEvent('back'));
+    bloc.depositCheckEventPipe.send(UpdateCheckImgEvent(CheckImageType.back));
   }
 
   /// listens action on Confirm Button

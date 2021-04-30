@@ -1,5 +1,5 @@
-import 'package:business_banking/features/deposit_check/model/deposit_check_confirm_view_model.dart';
-import 'package:business_banking/features/deposit_check/model/deposit_check_entity.dart';
+import 'package:business_banking/features/deposit_check/model/2nd_data_entry/deposit_check_entity.dart';
+import 'package:business_banking/features/deposit_check/model/3rd_request_confirmation/deposit_check_confirm_view_model.dart';
 import 'package:business_banking/features/deposit_check/model/enums.dart';
 import 'package:clean_framework/clean_framework.dart';
 import 'package:clean_framework/clean_framework_defaults.dart';
@@ -35,6 +35,7 @@ class DepositCheckConfirmUseCase extends UseCase {
     ExampleLocator()
         .repository
         .update<DepositCheckEntity>(_scope!, emptyEntity);
+    _notifySubscribers(emptyEntity);
   }
 
   DepositCheckConfirmViewModel buildViewModel(DepositCheckEntity entity) {

@@ -1,7 +1,7 @@
 import 'package:business_banking/features/deposit_check/api/deposit_check_request_model.dart';
 import 'package:business_banking/features/deposit_check/api/deposit_check_response_model.dart';
 import 'package:business_banking/features/deposit_check/api/deposit_check_service.dart';
-import 'package:business_banking/features/deposit_check/model/deposit_check_entity.dart';
+import 'package:business_banking/features/deposit_check/model/2nd_data_entry/deposit_check_entity.dart';
 import 'package:clean_framework/clean_framework.dart';
 
 class DepositCheckServiceAdapter extends ServiceAdapter<

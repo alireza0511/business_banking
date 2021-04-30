@@ -7,23 +7,13 @@ import 'package:image_picker/image_picker.dart';
 class ImagePickerPlugin extends ExternalDependency {
   final ImagePicker _picker = ImagePicker();
 
-  @override
-  Future<PickedFile?> cameraImgFile() async {
-    try {
-      var imgFile = await _onImageActionListener();
-
-      return imgFile;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  Future<String> cameraImgBase64() async {
+  Future<String> cameraImgFilePath() async {
     try {
       var imgFile = await _onImageActionListener();
       if (imgFile != null) {
-        Uint8List byteFile = await imgFile.readAsBytes();
-        return base64.encode(byteFile);
+        return imgFile.path;
+        // Uint8List byteFile = await imgFile.readAsBytes();
+        // return base64.encode(byteFile);
       } else {
         return '';
       }

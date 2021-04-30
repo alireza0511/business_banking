@@ -1,6 +1,6 @@
+import 'package:business_banking/features/deposit_check/bloc/3rd_request_confirmation/deposit_check_confirm_event.dart';
 import 'package:business_banking/features/deposit_check/bloc/deposit_check_bloc.dart';
-import 'package:business_banking/features/deposit_check/model/deposit_check_confirm_view_model.dart';
-import 'package:business_banking/features/deposit_check/bloc/deposit_check_event.dart';
+import 'package:business_banking/features/deposit_check/model/3rd_request_confirmation/deposit_check_confirm_view_model.dart';
 import 'package:clean_framework/clean_framework.dart';
 import 'package:flutter/material.dart';
 

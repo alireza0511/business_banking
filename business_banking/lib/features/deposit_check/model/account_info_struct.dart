@@ -12,11 +12,11 @@ class AccountInfoStruct extends Equatable {
       this.depositLimit = 0.0,
       this.accountNickname = ''});
 
-  AccountInfoStruct.fromJson(Map<String, dynamic> json)
-      : accountNumber = json['accountNumber'] ?? '',
-        availableBalance = json['availableBalance'] ?? 0.0,
-        depositLimit = json['depositLimit'] ?? 0.0,
-        accountNickname = json['accountNickname'] ?? '';
+  // AccountInfoStruct.fromJson(Map<String, dynamic> json)
+  //     : accountNumber = json['accountNumber'] ?? '',
+  //       availableBalance = json['availableBalance'] ?? 0.0,
+  //       depositLimit = json['depositLimit'] ?? 0.0,
+  //       accountNickname = json['accountNickname'] ?? '';
 
   @override
   List<Object> get props =>

@@ -1,9 +1,9 @@
+import 'package:business_banking/features/deposit_check/bloc/1st_hub_card/deposit_check_card_event.dart';
+import 'package:business_banking/features/deposit_check/model/1st_hub_card/deposit_check_card_view_model.dart';
 import 'package:clean_framework/clean_framework.dart';
 import 'package:flutter/material.dart';
 
 import '../../bloc/deposit_check_bloc.dart';
-import '../../bloc/deposit_check_event.dart';
-import '../../model/deposit_check_card_view_model.dart';
 import '../../../../routes.dart';
 import 'deposit_check_card_screen.dart';
 

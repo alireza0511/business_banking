@@ -1,7 +1,6 @@
 import 'dart:ui';
 
-import 'package:business_banking/features/deposit_check/model/deposit_check_card_view_model.dart';
-import 'package:business_banking/features/deposit_check/model/deposit_check_view_model.dart';
+import 'package:business_banking/features/deposit_check/model/1st_hub_card/deposit_check_card_view_model.dart';
 import 'package:business_banking/features/deposit_check/model/enums.dart';
 import 'package:clean_framework/clean_framework.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +44,7 @@ class _succeedCard extends StatelessWidget {
     return GestureDetector(
       child: ItemCard(
         viewModel: viewModel,
-        key: key,
+        // key: key,
       ),
       onTap: () {
         pressenterActions.navigateToDepositCheck(context);
@@ -103,8 +102,6 @@ class _failedCard extends StatelessWidget {
         ),
       ),
     );
-
-    ;
   }
 }
 

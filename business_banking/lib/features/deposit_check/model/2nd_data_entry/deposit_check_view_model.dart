@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:business_banking/features/deposit_check/model/account_info_struct.dart';
 import 'package:clean_framework/clean_framework.dart';
 
-import 'enums.dart';
+import '../enums.dart';
 
 class DepositCheckViewModel extends ViewModel {
   final AccountInfoStruct? accountInfo;
@@ -33,9 +33,9 @@ class DepositCheckViewModel extends ViewModel {
   List<Object> get props => [
         accountInfo!,
         depositAmount,
+        userEmail,
         frontCheckImg,
         backCheckImg,
         referenceNumber,
-        userEmail,
       ];
 }

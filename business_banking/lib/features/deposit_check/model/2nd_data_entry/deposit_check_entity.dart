@@ -10,8 +10,6 @@ class DepositCheckEntity extends Entity {
   final String backCheckImg;
   final String? referenceNumber;
   final String userEmail;
-  //final String? userEmailStatus;
-  //final String? depositAmountStatus;
 
   DepositCheckEntity({
     List<EntityFailure> errors = const [],
@@ -21,16 +19,15 @@ class DepositCheckEntity extends Entity {
     this.backCheckImg = '',
     this.referenceNumber = '',
     this.userEmail = '',
-    //  this.userEmailStatus = '',
-    //this.depositAmountStatus = ''
   })  : accountInfo = accountInfo,
         super(errors: errors);
 
   @override
-  List<Object> get probs => [
+  List<Object> get props => [
         errors,
         accountInfo!,
         depositAmount,
+        userEmail,
         frontCheckImg,
         backCheckImg,
         referenceNumber!
@@ -45,8 +42,6 @@ class DepositCheckEntity extends Entity {
     String? backCheckImg,
     String? referenceNumber,
     String? userEmail,
-    // String? userEmailStatus,
-    // String? depositAmountStatus,
   }) {
     return DepositCheckEntity(
       errors: errors ?? this.errors,
@@ -56,8 +51,6 @@ class DepositCheckEntity extends Entity {
       backCheckImg: backCheckImg ?? this.backCheckImg,
       referenceNumber: referenceNumber ?? this.referenceNumber,
       userEmail: userEmail ?? this.userEmail,
-      // userEmailStatus: userEmailStatus ?? this.userEmailStatus,
-      // sdepositAmountStatus: depositAmountStatus ?? this.depositAmountStatus
     );
   }
 }

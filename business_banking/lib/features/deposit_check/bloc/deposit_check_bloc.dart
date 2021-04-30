@@ -1,12 +1,16 @@
+import 'package:business_banking/dependency/Image_picker_plugin.dart';
+import 'package:business_banking/dependency/permission_handler_plugin.dart';
+import 'package:business_banking/features/deposit_check/model/1st_hub_card/deposit_check_card_view_model.dart';
+import 'package:business_banking/features/deposit_check/model/2nd_data_entry/deposit_check_view_model.dart';
+import 'package:business_banking/features/deposit_check/model/3rd_request_confirmation/deposit_check_confirm_view_model.dart';
 import 'package:clean_framework/clean_framework.dart';
 
-import '../model/deposit_check_card_view_model.dart';
-import '../model/deposit_check_confirm_view_model.dart';
-import '../model/deposit_check_view_model.dart';
+import '1st_hub_card/deposit_check_card_event.dart';
 import '1st_hub_card/deposit_check_card_usecase.dart';
+import '2nd_data_entry/deposit_check_event.dart';
 import '2nd_data_entry/deposit_check_usecase.dart';
+import '3rd_request_confirmation/deposit_check_confirm_event.dart';
 import '3rd_request_confirmation/deposit_check_confirmation_usecase.dart';
-import 'deposit_check_event.dart';
 
 class DepositCheckBloc extends Bloc {
   DepositCheckCardUseCase? _depositCheckCardUseCase;
@@ -45,7 +49,8 @@ class DepositCheckBloc extends Bloc {
         .whenListenedDo(() => _depositCheckCardUseCase!.execute());
 
     _depositCheckUseCase = depositCheckUseCase ??
-        DepositCheckUseCase(depositCheckViewModelPipe.send);
+        DepositCheckUseCase(depositCheckViewModelPipe.send,
+            PermissionHandlerPlugin(), ImagePickerPlugin());
     depositCheckViewModelPipe
         .whenListenedDo(() => _depositCheckUseCase!.execute());
 
@@ -71,15 +76,17 @@ class DepositCheckBloc extends Bloc {
       _depositCheckUseCase!.submitDepositCheck();
     } else if (event is ResetDepositCheckViewModelEvent) {
       _depositCheckConfirmUseCase!.resetViewModel();
-    } else if (event is ResetServiceStatusEvent) {
-      _depositCheckUseCase!.resetServiceStatus();
     }
+    // else if (event is ResetServiceStatusEvent) {
+    //   _depositCheckUseCase!.resetServiceStatus();
+    // }
   }
 
   void depositCheckCardEventPipeHandler(DepositCheckCardEvent event) {
-    if (event is ResetServiceStatusEvent) {
-      _depositCheckUseCase!.resetServiceStatus();
-    } else if (event is UpdateAccountInfoEvent) {
+    // if (event is ResetServiceStatusEvent) {
+    //   _depositCheckUseCase!.resetServiceStatus();
+    // } else
+    if (event is UpdateAccountInfoEvent) {
       _depositCheckUseCase!.updateAccountInfo(event.accountInfo);
     }
   }
@@ -87,8 +94,9 @@ class DepositCheckBloc extends Bloc {
   void depositCheckConfirmEventPipeHandler(DepositCheckConfirmEvent event) {
     if (event is ResetDepositCheckViewModelEvent) {
       _depositCheckConfirmUseCase!.resetViewModel();
-    } else if (event is ResetServiceStatusEvent) {
-      _depositCheckUseCase!.resetServiceStatus();
     }
+    // else if (event is ResetServiceStatusEvent) {
+    //   _depositCheckUseCase!.resetServiceStatus();
+    // }
   }
 }

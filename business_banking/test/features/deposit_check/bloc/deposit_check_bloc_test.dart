@@ -1,9 +1,12 @@
 // @dart=2.9
+import 'package:business_banking/features/deposit_check/bloc/1st_hub_card/deposit_check_card_event.dart';
+import 'package:business_banking/features/deposit_check/bloc/2nd_data_entry/deposit_check_event.dart';
+import 'package:business_banking/features/deposit_check/bloc/3rd_request_confirmation/deposit_check_confirm_event.dart';
 import 'package:business_banking/features/deposit_check/bloc/deposit_check_bloc.dart';
-import 'package:business_banking/features/deposit_check/bloc/deposit_check_event.dart';
+import 'package:business_banking/features/deposit_check/model/1st_hub_card/deposit_check_card_view_model.dart';
+import 'package:business_banking/features/deposit_check/model/2nd_data_entry/deposit_check_view_model.dart';
 import 'package:business_banking/features/deposit_check/model/account_info_struct.dart';
-import 'package:business_banking/features/deposit_check/model/deposit_check_card_view_model.dart';
-import 'package:business_banking/features/deposit_check/model/deposit_check_view_model.dart';
+import 'package:business_banking/features/deposit_check/model/enums.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
@@ -39,7 +42,7 @@ void main() {
   group('Deposit Check Bloc', () {
     final double tCheckAmount = 2000.00;
     final String tUserEmail = 'alireza@hnb.com';
-    final String tImgType = 'front';
+    final CheckImageType tImgType = CheckImageType.front;
     final AccountInfoStruct tAccountInfo = AccountInfoStruct(
         accountNickname: 'Checking Account (...6917)',
         accountNumber: '1234567890126917',
@@ -91,9 +94,9 @@ void main() {
         if (event is ResetDepositCheckViewModelEvent) {
           //verify(mockDepositCheckUseCase.resetViewModel()).called(1);
         }
-        if (event is ResetServiceStatusEvent) {
-          verify(mockDepositCheckUseCase.resetServiceStatus()).called((1));
-        }
+        // if (event is ResetServiceStatusEvent) {
+        //   verify(mockDepositCheckUseCase.resetServiceStatus()).called((1));
+        // }
       });
 
       bloc.depositCheckEventPipeHandler(UpdateCheckAmountEvent(tCheckAmount));
